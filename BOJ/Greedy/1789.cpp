@@ -1,7 +1,36 @@
 /*
-* Æ²¸°ÀÌÀ¯
-* 1. whileÀÇ Á¶°Ç¹®¿¡¼­ ´Þ¼ºÇØ¾ßÇÒ S¿Í totalNum+i(¿©ÅÂ ´õÇØ¿Â ¼ö + ´ÙÀ½¼ö)°¡ °°À» ¶§¸¦ °í·ÁÇÏÁö ¾ÊÀ½
-* 2. ÀÚ·áÇüÀÌ long long ÇüÀÎµ¥ int¸¦ »ç¿ë
+* í‹€ë¦°ì´ìœ 
+* 1. whileì˜ ì¡°ê±´ë¬¸ì—ì„œ ë‹¬ì„±í•´ì•¼í•  Sì™€ totalNum+i(ì—¬íƒœ ë”í•´ì˜¨ ìˆ˜ + ë‹¤ìŒìˆ˜)ê°€ ê°™ì„ ë•Œë¥¼ ê³ ë ¤í•˜ì§€ ì•ŠìŒ
+* 2. ìžë£Œí˜•ì´ long long í˜•ì¸ë° intë¥¼ ì‚¬ìš©
+*/
+//#include <iostream>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	long long S = 0;		//int ì‚¬ìš©í•´ì„œ ì˜¤ë¥˜ë‚¨
+//
+//	cin >> S;
+//	long long i = 1;		//int ì‚¬ìš©í•´ì„œ ì˜¤ë¥˜ë‚¨
+//	int N = 0;
+//	long long totalNum = 0;
+//	while (totalNum + i <= S) {		//ê°™ì„ ê²½ìš° ê³ ë ¤í•˜ì§€ ì•Šì•„ ì˜¤ë¥˜ë‚¨
+//		N++;
+//		totalNum += i;
+//		i++;
+//	}
+//
+//	cout << N;
+//
+//	return 0;
+//}
+
+//2023-02-01 ë³µìŠµ
+/*
+* ë¬¸ì œí’€ì´
+* ë†€ëžê²Œë„ ê°™ì€ ì´ìœ ë¡œ ë˜ í‹€ë ¸ë‹¤.
+* long long ì„ ì•ˆ ì‚¬ìš©í–ˆê³ , tempì™€ Sê°€ ê°™ì„ ë•Œë¥¼ ê³ ë ¤í•˜ì§€ ì•Šì•˜ë‹¤.
 */
 #include <iostream>
 
@@ -9,19 +38,18 @@ using namespace std;
 
 int main(void) {
 
-	long long S = 0;		//int »ç¿ëÇØ¼­ ¿À·ù³²
-
+	long long S; int N = 0;
 	cin >> S;
-	long long i = 1;		//int »ç¿ëÇØ¼­ ¿À·ù³²
-	int N = 0;
-	long long totalNum = 0;
-	while (totalNum + i <= S) {		//°°À» °æ¿ì °í·ÁÇÏÁö ¾Ê¾Æ ¿À·ù³²
-		N++;
-		totalNum += i;
-		i++;
-	}
 
-	cout << N;
+	long long temp = 0;
+	long long num = 1;
+	while (true) {
+		if (temp > S)
+			break;
+		temp += num++;
+		N++;
+	}
+	cout << N - 1;
 
 	return 0;
 }
