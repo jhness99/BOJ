@@ -1,10 +1,53 @@
 /*
-* ¼ö¸¦ Ãß°¡ÇÒ ¶§ ¸¶´Ù Á¤·ÄµÇ¼­ °¡Àå ÀÛÀº °ªÀ» ¾Ë·ÁÁà¾ß ÇÏ¹Ç·Î 
-* ¿ì¼±¼øÀ§ Å¥¸¦ ¿ª¼øÀ¸·Î ÇØ °¡Àå ÀÛÀº °ªÀÌ topÀÌ µÇ°Ô ÇØ¼­
-* ÇØ´ç °ªÀ» 2¹ø »©¼­ °¡Àå ÀÛÀº¼ö¿Í ±× ´ÙÀ½¼ö¸¦ ´õÇÑ ÈÄ
-* °á°ú°ª¿¡ ´õÇÏ°í ´Ù½Ã ¿ì¼±¼øÀ§ Å¥¿¡ ³Ö¾î È®ÀÎÇØÁØ´Ù
-* ¿ì¼±¼øÀ§Å¥ÀÇ Å©±â°¡ 1ÀÌµÉ°æ¿ì(Ä«µå ¹­À½ÀÌ 1°³°¡ ‰çÀ» °æ¿ì) ±×¸¸µÐ´Ù.
-* ´õÇØÁá´ø °á°ú°ªÀÌ ´äÀÌ´Ù.
+* ìˆ˜ë¥¼ ì¶”ê°€í•  ë•Œ ë§ˆë‹¤ ì •ë ¬ë˜ì„œ ê°€ìž¥ ìž‘ì€ ê°’ì„ ì•Œë ¤ì¤˜ì•¼ í•˜ë¯€ë¡œ 
+* ìš°ì„ ìˆœìœ„ íë¥¼ ì—­ìˆœìœ¼ë¡œ í•´ ê°€ìž¥ ìž‘ì€ ê°’ì´ topì´ ë˜ê²Œ í•´ì„œ
+* í•´ë‹¹ ê°’ì„ 2ë²ˆ ë¹¼ì„œ ê°€ìž¥ ìž‘ì€ìˆ˜ì™€ ê·¸ ë‹¤ìŒìˆ˜ë¥¼ ë”í•œ í›„
+* ê²°ê³¼ê°’ì— ë”í•˜ê³  ë‹¤ì‹œ ìš°ì„ ìˆœìœ„ íì— ë„£ì–´ í™•ì¸í•´ì¤€ë‹¤
+* ìš°ì„ ìˆœìœ„íì˜ í¬ê¸°ê°€ 1ì´ë ê²½ìš°(ì¹´ë“œ ë¬¶ìŒì´ 1ê°œê°€ ë¬ì„ ê²½ìš°) ê·¸ë§Œë‘”ë‹¤.
+* ë”í•´ì¤¬ë˜ ê²°ê³¼ê°’ì´ ë‹µì´ë‹¤.
+*/
+//#include <iostream>
+//#include <queue>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N = 0;
+//	int answer = 0;
+//	priority_queue<int, vector<int>, greater<>> pq;		//ê°€ìž¥ ìž‘ì€ ê°’ì´ topì´ ë˜ëŠ” ìš°ì„ ìˆœìœ„ í ìƒì„±
+//	cin >> N;
+//	
+//	for (int i = 0; i < N; i++) {
+//		int temp;
+//		cin >> temp;
+//		pq.push(temp);		//ìžë™ì •ë ¬
+//	}
+//	while (pq.size() != 1) {	//ì¹´ë“œ ë¬¶ìŒì´ 1ê°œê°€ ë¬ì„ ê²½ìš° ë°˜ë³µì¤‘ì§€
+//		int sum = 0;
+//
+//		//ì•žì—ì„œ 2ê°œì˜ ìˆ˜ë¥¼ ë”í•´ì„œ ìƒˆë¡œìš´ ë¬¶ìŒì„ ë§Œë“¤ê³ 
+//		//ê·¸ ë¬¶ìŒë§Œí¼ ë¹„êµíšŸìˆ˜ ì¦ê°€ì‹œí‚´
+//		sum += pq.top();
+//		pq.pop();
+//		sum += pq.top();
+//		pq.pop();
+//		answer += sum;	
+//		pq.push(sum);
+//	}
+//	cout << answer;
+//	return 0;
+//}
+//2023-02-06 ë³µìŠµ
+/*
+* 1.ì•„ì´ë””ì–´
+* ìš°ì„ ìˆœìœ„íì— ëª¨ë“  ìˆ˜ ì‚½ìž…
+* ìž‘ì€ìˆ˜ 2ê°œë¥¼ popí•˜ê³  í•´ë‹¹ ìˆ˜ë¥¼ ë”í•œê°’ì„ answerì— ë”í•˜ê³  ë‹¤ì‹œ ìš°ì„ ìˆœìœ„ íì— push
+* 2.ì‹œê°„ë³µìž¡ë„
+* O(N) N <= 100000 ì´ë¯€ë¡œ ê°€ëŠ¥
+* 3.ë³€ìˆ˜í˜•
+* long long
 */
 #include <iostream>
 #include <queue>
@@ -14,28 +57,29 @@ using namespace std;
 
 int main(void) {
 
-	int N = 0;
-	int answer = 0;
-	priority_queue<int, vector<int>, greater<>> pq;		//°¡Àå ÀÛÀº °ªÀÌ topÀÌ µÇ´Â ¿ì¼±¼øÀ§ Å¥ »ý¼º
+	priority_queue<int, vector<int>, greater<>> pq;
+	int N;
+	long long answer = 0;
 	cin >> N;
-	
-	for (int i = 0; i < N; i++) {
-		int temp;
-		cin >> temp;
-		pq.push(temp);		//ÀÚµ¿Á¤·Ä
-	}
-	while (pq.size() != 1) {	//Ä«µå ¹­À½ÀÌ 1°³°¡ ‰çÀ» °æ¿ì ¹Ýº¹ÁßÁö
-		int sum = 0;
 
-		//¾Õ¿¡¼­ 2°³ÀÇ ¼ö¸¦ ´õÇØ¼­ »õ·Î¿î ¹­À½À» ¸¸µé°í
-		//±× ¹­À½¸¸Å­ ºñ±³È½¼ö Áõ°¡½ÃÅ´
-		sum += pq.top();
+	for (int i = 0; i < N; i++) {
+		int num;
+		cin >> num;
+		pq.push(num);
+	}
+
+	while (pq.size() >= 2) {
+		int num1 = pq.top();
 		pq.pop();
-		sum += pq.top();
+		int num2 = pq.top();
 		pq.pop();
-		answer += sum;	
+
+		int sum = num1 + num2;
+		answer += sum;
 		pq.push(sum);
 	}
+
 	cout << answer;
+
 	return 0;
 }
