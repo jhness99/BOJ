@@ -1,96 +1,150 @@
 /*
-* Ã¹ ½Ãµµ´Â º¤ÅÍ¸¦ »ç¿ëÇØ¼­ ¼ö¸¦ ³Ö¾îÁÖ°í Á¤·ÄÇÑ ÈÄ¿¡ °¡Àå ¹«°Ô°¡ ÀÛÀ¸¸é¼­ °¡Àå °¡Ä¡°¡ ³ôÀº ¼øÀ¸·Î
-* °¡¹æ¿¡ ³Ö¾îÁÖ°í, °¡¹æÀ» ºñÈ°¼ºÈ­ ½ÃÄÑÁÖ´Â ÄÚµå¸¦ ¸¸µé¾ú´Ù.
-* ÇÏÁö¸¸ ÀÌ·¸°Ô µÇ¸é ½Ã°£º¹Àâµµ°¡ O(n*k)ÀÌ µÇ°í, ½Ã°£ ÃÊ°ú°¡ ³ª¿À°Ô µÈ´Ù
-* µû¶ó¼­ ¾Æ·¡ ÄÚµå·Î ·ÎÁ÷À» ¹Ù²å´Ù. ±âº»ÀûÀ¸·Î ºñ½ÁÇÏ´Ù
+* ì²« ì‹œë„ëŠ” ë²¡í„°ë¥¼ ì‚¬ìš©í•´ì„œ ìˆ˜ë¥¼ ë„£ì–´ì£¼ê³  ì •ë ¬í•œ í›„ì— ê°€ì¥ ë¬´ê²Œê°€ ì‘ìœ¼ë©´ì„œ ê°€ì¥ ê°€ì¹˜ê°€ ë†’ì€ ìˆœìœ¼ë¡œ
+* ê°€ë°©ì— ë„£ì–´ì£¼ê³ , ê°€ë°©ì„ ë¹„í™œì„±í™” ì‹œì¼œì£¼ëŠ” ì½”ë“œë¥¼ ë§Œë“¤ì—ˆë‹¤.
+* í•˜ì§€ë§Œ ì´ë ‡ê²Œ ë˜ë©´ ì‹œê°„ë³µì¡ë„ê°€ O(n*k)ì´ ë˜ê³ , ì‹œê°„ ì´ˆê³¼ê°€ ë‚˜ì˜¤ê²Œ ëœë‹¤
+* ë”°ë¼ì„œ ì•„ë˜ ì½”ë“œë¡œ ë¡œì§ì„ ë°”ê¿¨ë‹¤. ê¸°ë³¸ì ìœ¼ë¡œ ë¹„ìŠ·í•˜ë‹¤
+*/
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//#include <queue>
+//
+//using namespace std;
+//#define MAX 300001
+//
+////ìµœëŒ€í¬ê¸°ì˜ ë°°ì—´ìƒì„±
+//pair<int, int> jewerly[MAX];
+//int bp[MAX];
+//
+//int main(void) {
+//	/*
+//	int N, K, sum = 0;
+//	cin >> N >> K;
+//	vector<pair<int, int>> v;
+//	vector<pair<int, bool>> bp;
+//	for (int i = 0; i < N; i++) {
+//		int M, V;
+//		cin >> M >> V;
+//		v.push_back({ M, V });
+//	}
+//
+//	for (int i = 0; i < K; i++) {
+//		int temp;
+//		cin >> temp;
+//		bp.push_back({ temp, false });
+//	}
+//
+//	sort(v.begin(), v.end(), [](const pair<int, int> &p1,const pair<int, int> &p2) {
+//		if (p1.first < p2.first)
+//			return true;
+//		else if (p1.first == p2.first)
+//			return p1.second > p2.second;
+//		else
+//			return false;
+//		});
+//	sort(bp.begin(), bp.end());
+//
+//	for (auto& p : v) {
+//		for (auto& i : bp) {
+//			if (i.first >= p.first && !i.second) {
+//				i.first -= p.first;
+//				i.second = true;
+//				sum += p.second;
+//				break;
+//			}
+//		}
+//	}
+//
+//	cout << sum;
+//	*/
+//	int N, K; 
+//	long long sum = 0;
+//	priority_queue<int> pq; //ê°€ì¥ í° ê°’ì„ topìœ¼ë¡œ ë‘ëŠ” ìš°ì„ ìˆœìœ„ í
+//
+//	cin >> N >> K;
+//
+//	for (int i = 0; i < N; i++) {
+//		int M, V;
+//		cin >> M >> V;
+//		jewerly[i] = { M, V };
+//	}
+//
+//	for (int i = 0; i < K; i++) {
+//		cin >> bp[i];
+//	}
+//
+//	//ì˜¬ë¦¼ì°¨ìˆœ ì •ë ¬ì„ í•´ì¤€ë‹¤. ì´ë•Œ jewerlyëŠ” ë¬´ê²Œê°€ ì‘ì€ ìˆœìœ¼ë¡œ ì •ë ¬ë¨.
+//	sort(jewerly, jewerly + N);
+//	sort(bp, bp + K);
+//	int index = 0;
+//
+//	for (int i = 0; i < K; i++) {
+//		//í•´ë‹¹ ë°°ë‚­ê³¼ í¬ê¸°ê°€ ê°™ê±°ë‚˜ ì‘ì€ ë¬´ê²Œë¥¼ ê°€ì§„ ë³´ì„ë§Œ pqì— ë„£ì–´ì§, ë”°ë¼ì„œ pqì˜ topì€ 
+//		//í•´ë‹¹ ë°°ë‚­ì´ ê°€ì§ˆ ìˆ˜ ìˆëŠ” ê°€ì¥ ê°€ì¹˜ê°€ ë†’ì€ ë³´ì„ì´ë‹¤.
+//		while (index < N && bp[i] >= jewerly[index].first) {
+//			pq.push(jewerly[index].second);
+//			index++;
+//		}
+//		//í˜„ì¬ ê°€ë°©ì— ë„£ì„ ìˆ˜ ìˆëŠ” ê°€ì¥ ê°€ì¹˜ìˆëŠ” ë³´ì„ì„ ë„£ëŠ”ë‹¤.
+//		if (!pq.empty()) {
+//			sum += pq.top();
+//			pq.pop();
+//		}
+//	}
+//	cout << sum;
+//
+//	return 0;
+//}
+//2023-02-08 ë³µìŠµ
+/*
+* 1.ì•„ì´ë””ì–´
+* ê°€ì¥ ì‘ì€ ë°°ë‚­ë¶€í„° ê·¸ ë°°ë‚­ì´ ë„£ì„ ìˆ˜ ìˆëŠ” ê°€ì¥ ê°€ì¹˜ìˆëŠ” ë³´ì„ì„ ë„£ì–´ì•¼ í•œë‹¤.
+* ë°°ë‚­ì˜ ë¬´ê²Œì™€ ë³´ì„ì˜ ë¬´ê²Œë¥¼ ê¸°ì¤€ìœ¼ë¡œ ê°ê° ì •ë ¬ì„ í•´ì¤€ë‹¤.
+* ì •ë ¬í•œ í›„ ë°°ë‚­ì„ ê¸°ì¤€ìœ¼ë¡œ í•´ë‹¹ ë°°ë‚­ì— ë„£ì„ ìˆ˜ ìˆëŠ” ê°€ì¥ ê°€ì¹˜ìˆëŠ” ë³´ì„ì„ ì°¾ëŠ”ë‹¤
+* ì´ëŠ” ìš°ì„ ìˆœìœ„ íë¥¼ ì‚¬ìš©í•´ ë³´ì„ì˜ ë¬´ê²Œë¥¼ ë„£ê³ , ë°°ë‚­ë³´ë‹¤ ë¬´ê±°ìš´ ë³´ì„ì´ ë‚˜ì™”ì„ ê²½ìš°
+* ë°˜ë³µì„ ì¢…ë£Œí•˜ê³  ìš°ì„ ìˆœìœ„ íì˜ ê°€ì¥ ë¬´ê±°ìš´ ë³´ì„ì„ ê°€ì¹˜ì— ë”í•´ì£¼ë©´ëœë‹¤.
+* 2.ì‹œê°„ë³µì¡ë„
+* O(N + K) + O(NlogN) + O(KlogK) N, k<=300000 ì´ë¯€ë¡œ ê°€ëŠ¥
+* 3.ë³€ìˆ˜í˜•
+* long long : ë³´ì„ì˜ ìµœëŒ€ê°€ì¹˜ê°€ 100000000 ì´ë¯€ë¡œ long long
 */
 #include <iostream>
-#include <vector>
-#include <algorithm>
 #include <queue>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
-#define MAX 300001
-
-//ÃÖ´ëÅ©±âÀÇ ¹è¿­»ı¼º
-pair<int, int> jewerly[MAX];
-int bp[MAX];
 
 int main(void) {
-	/*
-	int N, K, sum = 0;
+
+	int N, K;
 	cin >> N >> K;
-	vector<pair<int, int>> v;
-	vector<pair<int, bool>> bp;
-	for (int i = 0; i < N; i++) {
-		int M, V;
-		cin >> M >> V;
-		v.push_back({ M, V });
-	}
+	vector<pair<int, int>> jewelry(N);
+	vector<int> bp(K);
+	priority_queue<int> pq;
+	long long sum = 0;
 
-	for (int i = 0; i < K; i++) {
-		int temp;
-		cin >> temp;
-		bp.push_back({ temp, false });
-	}
+	for (auto& p : jewelry)
+		cin >> p.first >> p.second;
 
-	sort(v.begin(), v.end(), [](const pair<int, int> &p1,const pair<int, int> &p2) {
-		if (p1.first < p2.first)
-			return true;
-		else if (p1.first == p2.first)
-			return p1.second > p2.second;
-		else
-			return false;
-		});
+	for (auto& i : bp)
+		cin >> i;
+
+	sort(jewelry.begin(), jewelry.end());
 	sort(bp.begin(), bp.end());
 
-	for (auto& p : v) {
-		for (auto& i : bp) {
-			if (i.first >= p.first && !i.second) {
-				i.first -= p.first;
-				i.second = true;
-				sum += p.second;
-				break;
-			}
-		}
-	}
-
-	cout << sum;
-	*/
-	int N, K; 
-	long long sum = 0;
-	priority_queue<int> pq; //°¡Àå Å« °ªÀ» topÀ¸·Î µÎ´Â ¿ì¼±¼øÀ§ Å¥
-
-	cin >> N >> K;
-
-	for (int i = 0; i < N; i++) {
-		int M, V;
-		cin >> M >> V;
-		jewerly[i] = { M, V };
-	}
-
-	for (int i = 0; i < K; i++) {
-		cin >> bp[i];
-	}
-
-	//¿Ã¸²Â÷¼ø Á¤·ÄÀ» ÇØÁØ´Ù. ÀÌ¶§ jewerly´Â ¹«°Ô°¡ ÀÛÀº ¼øÀ¸·Î Á¤·ÄµÊ.
-	sort(jewerly, jewerly + N);
-	sort(bp, bp + K);
 	int index = 0;
-
 	for (int i = 0; i < K; i++) {
-		//ÇØ´ç ¹è³¶°ú Å©±â°¡ °°°Å³ª ÀÛÀº ¹«°Ô¸¦ °¡Áø º¸¼®¸¸ pq¿¡ ³Ö¾îÁü, µû¶ó¼­ pqÀÇ topÀº 
-		//ÇØ´ç ¹è³¶ÀÌ °¡Áú ¼ö ÀÖ´Â °¡Àå °¡Ä¡°¡ ³ôÀº º¸¼®ÀÌ´Ù.
-		while (index < N && bp[i] >= jewerly[index].first) {
-			pq.push(jewerly[index].second);
+		while (index < N && bp[i] >= jewelry[index].first) {
+			pq.push(jewelry[index].second);
 			index++;
 		}
-		//ÇöÀç °¡¹æ¿¡ ³ÖÀ» ¼ö ÀÖ´Â °¡Àå °¡Ä¡ÀÖ´Â º¸¼®À» ³Ö´Â´Ù.
 		if (!pq.empty()) {
 			sum += pq.top();
 			pq.pop();
 		}
 	}
+
 	cout << sum;
 
 	return 0;
