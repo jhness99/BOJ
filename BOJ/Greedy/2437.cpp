@@ -9,6 +9,49 @@
 * 1,1,1 3개의 조합으로는 1, 2, 3을 만들 수 있고 1,2,3,4,5 의 조합으로는 1부터 5까지의 단독숫자와 6부터 15까지 모든 수를 합친값 까지 가능하다.
 * 따라서 해당 숫자가 여태까지 더한 값 + 1 과 같거나 작다면 최소값은 기존에 더해온값 + 1 + 해당 값 이라는 뜻이다.
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N;
+//	int sum = 1;
+//
+//	cin >> N;
+//
+//	vector<int> v(N);
+//
+//	for (auto& i : v) {
+//		cin >> i;
+//	}
+//
+//	sort(v.begin(), v.end());
+//
+//	for (int i = 0; i < N; i++) {
+//		if (sum < v[i])
+//			break;
+//		sum += v[i];
+//	}
+//
+//	cout << sum;
+//
+//	return 0;
+//}
+//2023-02-17 복습
+/*
+* 1.아이디어
+* 해당 추를 크기 순서로 먼저 정렬한다.
+* sum을 만들어 가장 작은 추 부터 비교한다. 만약 sum이 확인하고 있는 추보다 크다면,
+* sum-1과 해당 추 사이에 있는 수는 만들수 없다는 뜻이다.
+* 따라서 sum이 만들수 있는 가장 작은 수이다.
+* 2.시간복잡도
+* 정렬을 사용했으므로 O(NlogN), N<=1000 따라서 가능
+* 3.변수형
+* int :
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -18,24 +61,21 @@ using namespace std;
 int main(void) {
 
 	int N;
-	int sum = 1;
-
 	cin >> N;
 
 	vector<int> v(N);
 
-	for (auto& i : v) {
+	for (auto& i : v)
 		cin >> i;
-	}
 
 	sort(v.begin(), v.end());
 
+	int sum = 1;
 	for (int i = 0; i < N; i++) {
 		if (sum < v[i])
 			break;
 		sum += v[i];
 	}
-
 	cout << sum;
 
 	return 0;
