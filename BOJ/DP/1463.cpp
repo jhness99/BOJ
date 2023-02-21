@@ -14,10 +14,55 @@
 * 문제를 잘 못 읽어서 dp[1] = 0을 1로 해버렸다
 * 문제에서 1을 만드는 조건이라 했으므로 이미 1이면 연산횟수가 없는것이 맞다.
 */
+//#include <iostream>
+//
+//using namespace std;
+// 
+//int dp[1000001];
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	dp[1] = 0;		//dp[1] = 1이라고 해서 틀림
+//	dp[2] = 1;
+//	dp[3] = 1;
+//
+//	for (int i = 4; i <= N; i++) {
+//		if (i % 3 == 0) 
+//			dp[i] = dp[i / 3] + 1;
+//		if (i % 2 == 0) 
+//			dp[i] = dp[i] ? min(dp[i], dp[i / 2] + 1) : dp[i / 2] + 1;
+//		dp[i] = dp[i] ? min(dp[i], dp[i-1] + 1) : dp[i-1] + 1;
+//	}
+//	cout << dp[N];
+//
+//	return 0;
+//}
+//2023-02-21 복습
+/*
+* 1.아이디어
+* 3개의 연산이 조건에 맞으면 실행하고
+* 연산한 횟수를 구하면된다.
+*
+* dp[i] 는 i일대 연산한 횟수이다
+* dp[0], dp[1]=1; dp[2] = 1; dp[3] = 1로 초기화
+* i 4->N,
+* 만약 3으로 나누어 떨어지면, -1연산과 나누기3 연산중 더 적은 값을 dp[i] dp[i] = min(dp[i / 3], dp[i - 1]) + 1
+* 만약 2로 나누어 떨어진다면, -1연산과 나누기2 연산중 더 적은 값을 dp[i] min(dp[i / 2], dp[i - 1]) + 1;
+* 다 안되면 dp[i] = dp[i-1] + 1
+* 하나 고려 안한 것이 있는데 6으로 나누어질경우 3,2 둘 다 가능하므로 3개의 경우를 비교해야한다.
+* dp[i] = min(dp[i - 1], min(dp[i / 3], dp[i / 2])) + 1
+* 이 4개를 모두 고려해주면 된다.
+* 2.시간복잡도
+* O(N),N <= 1000000 따라서 가능
+* 3.변수형
+* int
+*/
 #include <iostream>
-
 using namespace std;
- 
+
 int dp[1000001];
 
 int main(void) {
@@ -25,17 +70,17 @@ int main(void) {
 	int N;
 	cin >> N;
 
-	dp[1] = 0;		//dp[1] = 1이라고 해서 틀림
+	dp[1] = 0;
 	dp[2] = 1;
 	dp[3] = 1;
 
 	for (int i = 4; i <= N; i++) {
-		if (i % 3 == 0) 
-			dp[i] = dp[i / 3] + 1;
-		if (i % 2 == 0) 
-			dp[i] = dp[i] ? min(dp[i], dp[i / 2] + 1) : dp[i / 2] + 1;
-		dp[i] = dp[i] ? min(dp[i], dp[i-1] + 1) : dp[i-1] + 1;
+		if (i % 6 == 0) dp[i] = min(dp[i - 1], min(dp[i / 3], dp[i / 2])) + 1;
+		else if (i % 3 == 0) dp[i] = min(dp[i / 3], dp[i - 1]) + 1;
+		else if (i % 2 == 0) dp[i] = min(dp[i / 2], dp[i - 1]) + 1;
+		else dp[i] = dp[i - 1] + 1;
 	}
+
 	cout << dp[N];
 
 	return 0;
