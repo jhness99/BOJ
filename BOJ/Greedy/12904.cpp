@@ -9,57 +9,96 @@
 * 따라서 마지막에 있는 알파벳을 보고 바로 직전에 무슨 연산을 했는지 추리 해낼수 있고, 이를 이용해 역으로 연산해서 
 * S가 나오는지 안나오는지를 확인하면 되는 문제였다.
 */
+//#include <iostream>
+//#include <string>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	string S;
+//	string T;
+//	int answer = 0;
+//	cin >> S >> T;
+//
+//	/*
+//	* 틀린답
+//	while (S.length() <= T.length()) {
+//		S += 'A';
+//		if (S == T) {
+//			cout << 1;
+//			return 0;
+//		}
+//		reverse(S.begin(), S.end());
+//		S += 'B';
+//		if (S == T) {
+//			cout << 1;
+//			return 0;
+//		}
+//	}
+//	cout << 0;
+//	return 0;
+//	*/
+//
+//	while (1) {
+//		
+//		//만약 S와 T가 길이가 같은데 같다면 1 다르다면 초기화값(0)
+//		if (S.length() == T.length()) {
+//			if (S == T)
+//				answer = 1;
+//			break;
+//		}
+//
+//		//만약 마지막이 A일경우, 즉 1번연산이 바로직전에 끝났을 경우
+//		if (T.back() == 'A') {
+//			T.pop_back();
+//		}
+//		//만약 마지막이 B일경우, 즉 2번연산이 바로 직전에 끝났을 경우
+//		else {
+//			T.pop_back();
+//			reverse(T.begin(), T.end());
+//		}
+//	}
+//	cout << answer;
+//	return 0;
+//}
+//2023-02-22 복습
+/*
+* 1.아이디어
+* 1번연산과 2번연산은 각각 해당 연산을 수행하고 나면 뒤에 A, B가 있게 된다.
+* 따라서 문자열을 받았을 때 뒤의 문자를 보면 무슨 연산을 했는 지 알 수 있다는 것이다.
+* A가 뒤라면 1번연산을 반대로 해주고 B가 뒤라면 2번연산을 반대로 해준다.
+* 2.시간복잡도
+* O(T), T<=1000, 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
-#include <string>
 #include <algorithm>
 
 using namespace std;
 
 int main(void) {
 
-	string S;
-	string T;
+	string S, T;
 	int answer = 0;
 	cin >> S >> T;
 
-	/*
-	* 틀린답
-	while (S.length() <= T.length()) {
-		S += 'A';
-		if (S == T) {
-			cout << 1;
-			return 0;
-		}
-		reverse(S.begin(), S.end());
-		S += 'B';
-		if (S == T) {
-			cout << 1;
-			return 0;
-		}
-	}
-	cout << 0;
-	return 0;
-	*/
-
-	while (1) {
-		
-		//만약 S와 T가 길이가 같은데 같다면 1 다르다면 초기화값(0)
-		if (S.length() == T.length()) {
+	while (true) {
+		if (S.size() == T.size()) {
 			if (S == T)
 				answer = 1;
 			break;
 		}
-
-		//만약 마지막이 A일경우, 즉 1번연산이 바로직전에 끝났을 경우
 		if (T.back() == 'A') {
 			T.pop_back();
 		}
-		//만약 마지막이 B일경우, 즉 2번연산이 바로 직전에 끝났을 경우
 		else {
 			T.pop_back();
 			reverse(T.begin(), T.end());
 		}
 	}
 	cout << answer;
+
 	return 0;
 }
