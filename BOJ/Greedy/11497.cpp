@@ -16,27 +16,67 @@
 * 뺀 값이 기존에 확인했던 다른 난이도들과 비교해서 더 크면 해당 값을 난이도로 저장한다.
 * ex)1 2 3 4 5 6 7 8 9 -> 1 3 5 7 9 8 6 4 2 가장 큰 값이 중앙으로 가고 그 좌 우를 그 수보다 1번째, 2번째 작은 수로 감싼다.
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//using namespace std;
+//
+//int main(void) {
+//	int T, N;
+//	cin >> T;
+//	for (int testCase = 0; testCase < T; testCase++) {
+//		int answer = 0;		//난이도
+//		cin >> N;
+//		vector<int> v(N);
+//		for (auto& i : v)
+//			cin >> i;
+//
+//		sort(v.begin(), v.end());
+//		//오름차순으로 2번째 뒤에있는 수와 빼서 나온 값을 현재 난이도(현재까지 가장 큰 난이도)와 비교
+//		for (int i = 0; i < v.size() - 2; i++) {
+//			answer = max(answer, v[i+2]-v[i]);
+//		}
+//		cout << answer << "\n";
+//	}
+//	return 0;
+//}
+//2023-02-24 복습
+/*
+* 1.아이디어
+* 수열을 정렬해서 가장 큰 수를 기준으로 양쪽에 내림차순으로 수를 정렬한다고 생각해보자
+* 예를들어 1 2 3 6 7 9 일 경우 3 7 9 6 2 1로 정리할 수 있고, 각 수는 자신의 위치 -2, +2의 수와 비교한다.
+* 따라서 -2와 +2를 비교하면 되는데, 이때 -2한 값은 안해도 된다. 이유는 -2한 값이 이미 +2에서 해당 값을 비교했기 때문이다
+* 2.시간복잡도
+* 정렬을 사용했으므로 O(NlogN), N<=10000, 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
 int main(void) {
-	int T, N;
+
+	int T;
 	cin >> T;
-	for (int testCase = 0; testCase < T; testCase++) {
-		int answer = 0;		//난이도
+
+	while (T--) {
+		int N, Max = -1;
 		cin >> N;
+
 		vector<int> v(N);
 		for (auto& i : v)
 			cin >> i;
 
 		sort(v.begin(), v.end());
-		//오름차순으로 2번째 뒤에있는 수와 빼서 나온 값을 현재 난이도(현재까지 가장 큰 난이도)와 비교
-		for (int i = 0; i < v.size() - 2; i++) {
-			answer = max(answer, v[i+2]-v[i]);
-		}
-		cout << answer << "\n";
+
+		for (int i = 0; i < N - 2; i++)
+			Max = max(Max, v[i + 2] - v[i]);
+
+		cout << Max;
 	}
+
 	return 0;
 }

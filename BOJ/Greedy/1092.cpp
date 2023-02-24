@@ -19,6 +19,62 @@
 * 따라서 아이디어 자체는 맞았으나 우선순위큐를 사용해 top을 사용한 내 풀이는 틀렸다.
 * 
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, M, answer = 0;
+//	cin >> N;
+//	vector<int> c(N);
+//	for (auto& i : c)
+//		cin >> i;
+//
+//	cin >> M;
+//	vector<int> w(M);
+//	for (auto& i : w)
+//		cin >> i;
+//
+//	sort(c.begin(), c.end(), greater<>());
+//	sort(w.begin(), w.end(), greater<>());
+//
+//	//정렬했을 때 가장 무거운 무게를 옮길수있는 크래인보다 더 무거운 박스가 있을경우 불가능
+//	if (c[0] < w[0]) {
+//		cout << -1;
+//		return 0;
+//	}
+//
+//	while (!w.empty()) {
+//		for (int i = 0; i < N; i++) {
+//			for (int j = 0; j < w.size(); j++) {
+//
+//				if (c[i] >= w[j]) {
+//					w.erase(w.begin() + j);
+//					break;
+//				}
+//			}
+//		}
+//		answer++;
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-02-24 복습
+/*
+* 1.아이디어
+* 모든 수를 정렬한다.
+* 가장 큰 무게를 옮길수 있는 크레인부터 시작해서 옮길 수 있다면 break, 아닐경우 계속 반복
+* 모든 크레인이 움직였다면 answer++;
+* 만약 가장 무거운 무게를 옮길 수 있는 크레인보다 물건이 더 무겁다면 -1을 출력하고 종료한다.
+* 2.시간복잡도
+* O(NM)N<=50, M<=10000 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -29,6 +85,7 @@ int main(void) {
 
 	int N, M, answer = 0;
 	cin >> N;
+
 	vector<int> c(N);
 	for (auto& i : c)
 		cin >> i;
@@ -41,8 +98,7 @@ int main(void) {
 	sort(c.begin(), c.end(), greater<>());
 	sort(w.begin(), w.end(), greater<>());
 
-	//정렬했을 때 가장 무거운 무게를 옮길수있는 크래인보다 더 무거운 박스가 있을경우 불가능
-	if (c[0] < w[0]) {
+	if (w[0] > c[0]) {
 		cout << -1;
 		return 0;
 	}
@@ -50,7 +106,6 @@ int main(void) {
 	while (!w.empty()) {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < w.size(); j++) {
-
 				if (c[i] >= w[j]) {
 					w.erase(w.begin() + j);
 					break;

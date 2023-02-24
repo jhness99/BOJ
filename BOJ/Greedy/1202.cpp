@@ -108,44 +108,100 @@
 * 3.변수형
 * long long : 보석의 최대가치가 100000000 이므로 long long
 */
+//#include <iostream>
+//#include <queue>
+//#include <algorithm>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, K;
+//	cin >> N >> K;
+//	vector<pair<int, int>> jewelry(N);
+//	vector<int> bp(K);
+//	priority_queue<int> pq;
+//	long long sum = 0;
+//
+//	for (auto& p : jewelry)
+//		cin >> p.first >> p.second;
+//
+//	for (auto& i : bp)
+//		cin >> i;
+//
+//	sort(jewelry.begin(), jewelry.end());
+//	sort(bp.begin(), bp.end());
+//
+//	int index = 0;
+//	for (int i = 0; i < K; i++) {
+//		while (index < N && bp[i] >= jewelry[index].first) {
+//			pq.push(jewelry[index].second);
+//			index++;
+//		}
+//		if (!pq.empty()) {
+//			sum += pq.top();
+//			pq.pop();
+//		}
+//	}
+//
+//	cout << sum;
+//
+//	return 0;
+//}
+//2023-02-24 복습
+/*
+* 1.아이디어
+* 입력을 받아 pair로 저장
+* 가방 무게를 받아서 해당 무게보다 가벼운 보석의 가치를 우선순위 큐에 저장
+* 더이상 넣을 수 없다면(모든 보석을 확인함, 또는 가방무게가 더이상 안들어옴, 입력받은 가방 무게보다 더 높음) 우선순위 큐의 가장 큰 값을 answer에 저장
+* 이를 K번 반복함
+* 2.시간복잡도
+* sort를 사용했으므로 O(NlogN) N<=300000 따라서 가능
+* 3.변수형
+* long long : 보석의 값이 최대 100000000 이므로 100000000*300000(가방의 수)는 long long을 사용해야 한다.
+*/
 #include <iostream>
-#include <queue>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
+#include <queue>
 
 using namespace std;
 
 int main(void) {
 
 	int N, K;
-	cin >> N >> K;
-	vector<pair<int, int>> jewelry(N);
-	vector<int> bp(K);
+	long long answer = 0;
 	priority_queue<int> pq;
-	long long sum = 0;
+	cin >> N >> K;
 
-	for (auto& p : jewelry)
+	vector<pair<int, int>> v(N);
+	vector<int> bp(K);
+	for (auto& p : v) {
 		cin >> p.first >> p.second;
+	}
 
-	for (auto& i : bp)
+	for (auto& i : bp) {
 		cin >> i;
+	}
 
-	sort(jewelry.begin(), jewelry.end());
+	sort(v.begin(), v.end());
 	sort(bp.begin(), bp.end());
 
 	int index = 0;
 	for (int i = 0; i < K; i++) {
-		while (index < N && bp[i] >= jewelry[index].first) {
-			pq.push(jewelry[index].second);
+
+		while (index < N && v[index].first <= bp[i]) {
+			pq.push(v[index].second);
 			index++;
 		}
 		if (!pq.empty()) {
-			sum += pq.top();
+			answer += pq.top();
 			pq.pop();
 		}
 	}
 
-	cout << sum;
+	cout << answer;
 
 	return 0;
 }
