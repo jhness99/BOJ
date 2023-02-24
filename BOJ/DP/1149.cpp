@@ -14,25 +14,64 @@
 * 해당 집에 모든색을 확인했을때, house[해당집]에는 빨, 초, 파를 골랐을 때 최소가 되는 값이 들어있다.
 * 이것을 다음 인덱스에서 최소를 구할때 다시 사용되게 되고 해당 인덱스 또한 최소값을 찾을 수 있게 된다.
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//int house[1001][3];
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	int cost[3];
+//
+//	for (int i = 1; i <= N; i++) {
+//		cin >> cost[0] >> cost[1] >> cost[2];
+//		house[i][0] = min(house[i - 1][1], house[i - 1][2]) + cost[0];
+//		house[i][1] = min(house[i - 1][0], house[i - 1][2]) + cost[1];
+//		house[i][2] = min(house[i - 1][0], house[i - 1][1]) + cost[2];
+//	}
+//	cout << min(house[N][0], min(house[N][1], house[N][2]));
+//	return 0;
+//}
+//2023-02-24 복습
+/*
+* 1.아이디어
+* 같은 색을 제외한 나머지 색들중 가장 작은 수를 더해주는 연산을 계속하면된다.
+* 점화식은
+* dp[i][0] = arr[i][0] + min(dp[i - 1][1], dp[i - 1][2])
+* dp[i][1] = arr[i][1] + min(dp[i - 1][0], dp[i - 1][2])
+* dp[i][2] = arr[i][2] + min(dp[i - 1][0], dp[i - 1][1])
+* 2.시간복잡도
+* O(N) N<=1000, 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 
 using namespace std;
 
-int house[1001][3];
+int dp[1001][3];
+int arr[1001][3];
 
 int main(void) {
 
 	int N;
 	cin >> N;
 
-	int cost[3];
+	for (int i = 1; i <= N; i++) {
+		cin >> arr[i][0] >> arr[i][1] >> arr[i][2];
+	}
 
 	for (int i = 1; i <= N; i++) {
-		cin >> cost[0] >> cost[1] >> cost[2];
-		house[i][0] = min(house[i - 1][1], house[i - 1][2]) + cost[0];
-		house[i][1] = min(house[i - 1][0], house[i - 1][2]) + cost[1];
-		house[i][2] = min(house[i - 1][0], house[i - 1][1]) + cost[2];
+		dp[i][0] = arr[i][0] + min(dp[i - 1][1], dp[i - 1][2]);
+		dp[i][1] = arr[i][1] + min(dp[i - 1][0], dp[i - 1][2]);
+		dp[i][2] = arr[i][2] + min(dp[i - 1][0], dp[i - 1][1]);
 	}
-	cout << min(house[N][0], min(house[N][1], house[N][2]));
+
+	cout << min(dp[N][0], min(dp[N][1], dp[N][2]));
+
 	return 0;
 }
