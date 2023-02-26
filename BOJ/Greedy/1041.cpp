@@ -21,6 +21,68 @@
 * 어떤 면을 선택할지는 마주보는 면은 나올 수 없으므로 마주보는 면중 더 작은 면을 선택해 총 3개의 면을 구하고
 * 오름차순으로 정렬한 뒤 더해주면 된다.
 */
+//#include <iostream>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	long long N;
+//	int max_num = 0;
+//	long long answer = 0;
+//	int d[6];
+//	cin >> N;
+//
+//	for (int i = 0; i < 6; i++) {
+//		cin >> d[i];
+//		answer += d[i];
+//		max_num = max(d[i], max_num);
+//	}
+//	
+//	if (N == 1) {
+//		cout << answer - max_num;
+//	}
+//	else {
+//		answer = 0;
+//		d[0] = min(d[0], d[5]);
+//		d[1] = min(d[1], d[4]);
+//		d[2] = min(d[2], d[3]);
+//
+//		sort(d, d + 3);
+//		int sum1 = d[0];
+//		int sum2 = sum1 + d[1];
+//		int sum3 = sum2 + d[2];
+//
+//		answer += sum3 * 4;
+//		answer += sum2 * ((N - 1) * 4 + (N - 2) * 4);
+//		answer += sum1 * ((N - 1) * (N - 2) * 4 + (N - 2) * (N - 2));
+//		
+//		cout << answer;
+//	}
+//
+//	return 0;
+//}
+//2023-02-26 복습
+/*
+* 1.아이디어
+* 주사위로 N*N*N을 만들때를 생각해보면 우리는 주사위의 최대 3면까지 밖에 볼 수 없다.
+* 3면을 보는 경우가 최대이고 1면 2면도 볼 수 있다.
+* 우리는 이것을 이용해서 각 면이 마주보고 있는 면 중에서 더 작은 값을 골라 3면중 1개로 구성시키면 된다.
+* 따라서 d[0] = min(d[0], d[5]), d[1] = min(d[1], d[4]) d[2] = min(d[2], d[3])
+* 3개의 값을 오름차순으로 정렬한다.
+* 1면은 d[0]
+* 2면은 d[0] + d[1]
+* 3면은 d[0] + d[1] + d[2]
+*
+* 그리고 N에 따라 1면,2면,3면이 보이는 큐브갯수가 달라지는데 이를 규칙으로 풀면 이렇다.
+* 3면 = 4, 2면 = (N-2)*4+(N-1)*4, 1면 = (N-2)^2 + (N-2)*(N-1)*4
+*
+* 2.시간복잡도
+* O(N), N<=6
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <algorithm>
 
@@ -28,38 +90,41 @@ using namespace std;
 
 int main(void) {
 
-	long long N;
-	int max_num = 0;
-	long long answer = 0;
+	long long N;;
 	int d[6];
+	long long answer = 0;
 	cin >> N;
 
+	int Max = -1;
 	for (int i = 0; i < 6; i++) {
 		cin >> d[i];
 		answer += d[i];
-		max_num = max(d[i], max_num);
+		Max = max(Max, d[i]);
 	}
-	
+
 	if (N == 1) {
-		cout << answer - max_num;
+		cout << answer - Max;
+		return 0;
 	}
-	else {
-		answer = 0;
-		d[0] = min(d[0], d[5]);
-		d[1] = min(d[1], d[4]);
-		d[2] = min(d[2], d[3]);
 
-		sort(d, d + 3);
-		int sum1 = d[0];
-		int sum2 = sum1 + d[1];
-		int sum3 = sum2 + d[2];
 
-		answer += sum3 * 4;
-		answer += sum2 * ((N - 1) * 4 + (N - 2) * 4);
-		answer += sum1 * ((N - 1) * (N - 2) * 4 + (N - 2) * (N - 2));
-		
-		cout << answer;
-	}
+	d[0] = min(d[0], d[5]);
+	d[1] = min(d[1], d[4]);
+	d[2] = min(d[2], d[3]);
+
+	sort(d, d + 3);
+
+	int sum1 = d[0];
+	int sum2 = sum1 + d[1];
+	int sum3 = sum2 + d[2];
+
+	answer = 0;
+
+	answer += sum3 * 4;
+	answer += sum2 * ((N - 2) * 4 + (N - 1) * 4);
+	answer += sum1 * (((N - 2) * (N - 1) * 4) + (N - 2) * (N - 2));
+
+	cout << answer;
 
 	return 0;
 }
