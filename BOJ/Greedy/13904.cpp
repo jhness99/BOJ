@@ -8,15 +8,52 @@
 * 3.변수형
 * int : 100*1000이므로 100000
 */
+//#include <iostream>
+//#include <algorithm>
+//#include <vector>
+//
+//using namespace std;
+//
+//bool Check[1001] = { false, };
+//
+//bool compare(const pair<int, int>& p1, const pair<int, int>& p2) {
+//	return p1.second > p2.second;
+//}
+//
+//int main(void) {
+//
+//	int N, answer = 0;
+//	cin >> N;
+//
+//	vector<pair<int, int>> v(N);
+//	for (auto& p : v)
+//		cin >> p.first >> p.second;
+//
+//	//점수를 기준으로 정렬
+//	sort(v.begin(), v.end(), compare);
+//
+//	for (int i = 0; i < N; i++) {
+//		//해당 과제의 종료기한까지 과제할 수 있는 날이 남아있으면, 과제를 하고 점수를 얻는다.
+//		for (int j = v[i].first; j > 0; j--) {
+//			if (!Check[j]) {
+//				Check[j] = true;
+//				answer += v[i].second;
+//				break;
+//			}
+//		}
+//	}
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-01 복습
 #include <iostream>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-bool Check[1001] = { false, };
-
-bool compare(const pair<int, int>& p1, const pair<int, int>& p2) {
+bool compareTo(const pair<int, int>& p1, const pair<int, int>& p2) {
 	return p1.second > p2.second;
 }
 
@@ -24,24 +61,24 @@ int main(void) {
 
 	int N, answer = 0;
 	cin >> N;
-
 	vector<pair<int, int>> v(N);
+	vector<bool> schedule(N, false);
+
 	for (auto& p : v)
 		cin >> p.first >> p.second;
 
-	//점수를 기준으로 정렬
-	sort(v.begin(), v.end(), compare);
+	sort(v.begin(), v.end(), compareTo);
 
 	for (int i = 0; i < N; i++) {
-		//해당 과제의 종료기한까지 과제할 수 있는 날이 남아있으면, 과제를 하고 점수를 얻는다.
 		for (int j = v[i].first; j > 0; j--) {
-			if (!Check[j]) {
-				Check[j] = true;
+			if (!schedule[j]) {
+				schedule[j] = true;
 				answer += v[i].second;
 				break;
 			}
 		}
 	}
+
 	cout << answer;
 
 	return 0;

@@ -23,6 +23,30 @@
 * 이 때 내가 처음 생각한 방법으로 하면 10은 10 + 2 + 0 = 12, 1은 1 + 2 + 9 = 12이다
 * 하지만 1 뒤의 5는 5 + 8 + 2 = 15 15가 답이된다. 따라서 틀렸다.
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, answer = 0;
+//	cin >> N;
+//
+//	vector<int> v(N);
+//	for (auto& i : v)
+//		cin >> i;
+//
+//	sort(v.begin(), v.end(), greater<>());
+//
+//	for (int i = 0; i < N; i++) {
+//		answer = max(answer, v[i] + i + 1);
+//	}
+//	cout << answer + 1;
+//	return 0;
+//}
+//2023-03-01 복습
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -33,16 +57,18 @@ int main(void) {
 
 	int N, answer = 0;
 	cin >> N;
-
 	vector<int> v(N);
+
 	for (auto& i : v)
 		cin >> i;
 
 	sort(v.begin(), v.end(), greater<>());
 
 	for (int i = 0; i < N; i++) {
-		answer = max(answer, v[i] + i + 1);
+		answer = max(answer, i + v[i] + 1);
 	}
+
 	cout << answer + 1;
+
 	return 0;
 }
