@@ -16,31 +16,104 @@
 * 3.변수형
 * int : 
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//int M, N;
+//int dp[500][500];
+//int map[500][500];
+//int dx[] = { 1,-1,0,0 };
+//int dy[] = { 0,0,1,-1 };
+//
+//int dfs(int x, int y) {
+//	if (x == N - 1 && y == M - 1)
+//		return 1;
+//	if (dp[y][x] != -1)		//방문 이미 했을경우
+//		return dp[y][x];
+//
+//	dp[y][x] = 0;			//방문체크
+//	for (int i = 0; i < 4; i++) {
+//		int nx = x + dx[i];
+//		int ny = y + dy[i];
+//
+//		if (0 > nx || nx >= N || 0 > ny || ny >= M) continue;
+//		if (map[ny][nx] < map[y][x]) {
+//			dp[y][x] = dp[y][x] + dfs(nx, ny);
+//		}
+//	}
+//	return dp[y][x];
+//}
+//
+//int main(void) {
+//
+//	cin >> M >> N;
+//
+//	for (int i = 0; i < M; i++) {
+//		for (int j = 0; j < N; j++) {
+//			cin >> map[i][j];
+//			dp[i][j] = -1;		//방문초기화
+//		}
+//	}
+//
+//	dfs(0, 0);
+//	cout << dp[0][0];
+//
+//	return 0;
+//}
+//2023-03-03 복습
+/*
+* 1.아이디어
+* dfs를 사용해서 자신보다 더 작은 곳을 탐색한다.
+* 이때 탐색한 곳의 값이 0이 아니면,가지 않고 해당 수를 탐색을 시작한 위치check배열의 값을 +1한다.
+* 그 뜻은 해당 위치를 지나가는 경로의 갯수를 나타내게 된다.
+* 모든 dfs를 하고나면 시작위치는 도착위치로 가는 경로의 개수를 나타내게 된다.
+*
+* 틀린부분
+* 반례 10 9 8
+*	   11 6 7
+*		9 5 6
+* 해당 반례를 아래 주석버전으로 실행하면, 정상적으로 실행은 되지만 쓸대없는 과정이 있다.
+* 7->6탐색, 6->5탐색 이 탐색을 해도 6을 갈 수 없다.하지만 나중에 되돌아와서 9가 6을 탐색하면,
+* 분명 6은 경로가 1개도 없어서 더이상 할 필요가 없지만 탐색을 한다. 이건 작은 경우라 그렇지만 나중에
+* 값들이 많아지면 시간초과가 있을 수 있는 낭비이다. 이는 방문처리가 적절하지 않았기 때문인데,
+* 방문할 시 기록해줄 백터를 만드는 방법도 있고 dp를 애초에 -1이 비방문, 0이 방문했는데 경로가 1개도 없음
+* 이렇게 구현할 수도 있다.
+*
+* 2.시간복잡도
+* 최대의 경우 모든 맵을 방문해야하므로, O(MN), M, N <= 500, 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 
 using namespace std;
 
 int M, N;
-int dp[500][500];
-int map[500][500];
-int dx[] = { 1,-1,0,0 };
-int dy[] = { 0,0,1,-1 };
+int dx[] = { 1,0,-1,0 };
+int dy[] = { 0,1,0,-1 };
+int dp[501][501];
+int map[501][501];
 
-int dfs(int x, int y) {
-	if (x == N - 1 && y == M - 1)
-		return 1;
-	if (dp[y][x] != -1)		//방문 이미 했을경우
+int startX = 0, startY = 0;
+
+int DFS(int x, int y) {
+	if (x == N && y == M) {
+		dp[y][x] = 1;
+		return dp[y][x];
+	}
+
+	if (dp[y][x] != -1) //if (dp[y][x] != 0)
 		return dp[y][x];
 
-	dp[y][x] = 0;			//방문체크
+	dp[y][x] = 0;		//없었음
 	for (int i = 0; i < 4; i++) {
 		int nx = x + dx[i];
 		int ny = y + dy[i];
 
-		if (0 > nx || nx >= N || 0 > ny || ny >= M) continue;
-		if (map[ny][nx] < map[y][x]) {
-			dp[y][x] = dp[y][x] + dfs(nx, ny);
-		}
+		if (nx < 1 || N < nx || ny < 1 || M < ny) continue;
+		if (map[ny][nx] >= map[y][x]) continue;
+
+		dp[y][x] += DFS(nx, ny);
 	}
 	return dp[y][x];
 }
@@ -49,15 +122,14 @@ int main(void) {
 
 	cin >> M >> N;
 
-	for (int i = 0; i < M; i++) {
-		for (int j = 0; j < N; j++) {
+	for (int i = 1; i <= M; i++) {
+		for (int j = 1; j <= N; j++) {
 			cin >> map[i][j];
-			dp[i][j] = -1;		//방문초기화
+			dp[i][j] = -1;
 		}
 	}
 
-	dfs(0, 0);
-	cout << dp[0][0];
+	cout << DFS(1, 1);
 
 	return 0;
 }
