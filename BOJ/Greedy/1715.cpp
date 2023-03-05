@@ -49,18 +49,60 @@
 * 3.변수형
 * long long
 */
+//#include <iostream>
+//#include <queue>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	priority_queue<int, vector<int>, greater<>> pq;
+//	int N;
+//	long long answer = 0;
+//	cin >> N;
+//
+//	for (int i = 0; i < N; i++) {
+//		int num;
+//		cin >> num;
+//		pq.push(num);
+//	}
+//
+//	while (pq.size() >= 2) {
+//		int num1 = pq.top();
+//		pq.pop();
+//		int num2 = pq.top();
+//		pq.pop();
+//
+//		int sum = num1 + num2;
+//		answer += sum;
+//		pq.push(sum);
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+/*
+* 1.아이디어
+* 우선순위 큐를 사용해 가장 작은 값 top으로 하는 우선순위큐에 입력을 받는다.
+* pq의 사이즈가 2이상일경우, pq의 top 2개를 연속으로 빼내서 더한 후 q에 넣고 answer 에 저장한다.
+*
+* 2.시간복잡도
+* O(N), N<=100000 따라서 가능
+* 4.변수형
+*/
 #include <iostream>
 #include <queue>
-#include <vector>
 
 using namespace std;
 
 int main(void) {
 
-	priority_queue<int, vector<int>, greater<>> pq;
-	int N;
-	long long answer = 0;
+	int N, answer = 0;
 	cin >> N;
+
+	priority_queue<int, vector<int>, greater<>> pq;
 
 	for (int i = 0; i < N; i++) {
 		int num;
@@ -69,14 +111,13 @@ int main(void) {
 	}
 
 	while (pq.size() >= 2) {
-		int num1 = pq.top();
+		int sum = pq.top();
 		pq.pop();
-		int num2 = pq.top();
+		sum += pq.top();
 		pq.pop();
 
-		int sum = num1 + num2;
-		answer += sum;
 		pq.push(sum);
+		answer += sum;
 	}
 
 	cout << answer;
