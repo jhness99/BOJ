@@ -67,3 +67,38 @@ int main(void) {
 
 	return 0;
 }
+//2023-03-04 복습
+/*
+* 1.아이디어
+* 내림차순으로 정렬
+* index를 기준으로 v[index] * (index+1)이 기존 값보다 큰지 확인하고 큰 값으로 갱신
+*
+* 2.시간복잡도
+* O(NlogN) N<=100000 따라서 가능
+* 3.변수형
+*
+*/
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main(void) {
+
+	int N, answer = 0;
+	cin >> N;
+
+	vector<int> v(N);
+	for (auto& i : v)
+		cin >> i;
+
+	sort(v.begin(), v.end(), greater<>());
+
+	for (int i = 0; i < N; i++) {
+		answer = max(answer, v[i] * (i + 1));
+	}
+	cout << answer;
+
+	return 0;
+}
