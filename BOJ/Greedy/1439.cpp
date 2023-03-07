@@ -46,20 +46,51 @@
 * 3.변수형
 * int
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	string str;
+//	int cnt[] = { 0,0 };
+//
+//	cin >> str;
+//
+//	for (int i = 0; i < str.length(); i++) {
+//		if (str[i] != str[i + 1])
+//			cnt[str[i] - '0']++;
+//	}
+//
+//	cout << min(cnt[0], cnt[1]);
+//
+//	return 0;
+//}
+//203-03-07 복습
+/*
+* 1.아이디어
+* 문자열을 받아서 0의 그룹과 1의 그룹의 갯수를 샌다.
+* 갯수를 새는 법은 다음수가 이전수와 다를경우, 해당 수를 index로 지정해 각 그룹의 갯수를 갱신한다.
+* 0그룹과 1그룹중 더 적은 쪽이 답이된다.
+* 2.시간복잡도
+* O(N) N<=1000000 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 
 using namespace std;
 
 int main(void) {
 
-	string str;
 	int cnt[] = { 0,0 };
-
+	string str;
 	cin >> str;
 
-	for (int i = 0; i < str.length(); i++) {
-		if (str[i] != str[i + 1])
+	for (int i = 0; i < str.size(); i++) {
+		if (str[i] != str[i + 1]) {
 			cnt[str[i] - '0']++;
+		}
 	}
 
 	cout << min(cnt[0], cnt[1]);

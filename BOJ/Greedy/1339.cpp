@@ -111,37 +111,81 @@
 * 3.변수형
 * int:
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N;
+//	int answer = 0;
+//	cin >> N;
+//
+//	vector<int> alpha(26, 0);
+//	vector<string> v(N);
+//
+//	for (auto& s : v)
+//		cin >> s;
+//
+//	for (auto& s : v) {
+//		for (int i = 0; i < s.length(); i++)
+//			alpha[s[i] - 'A'] += pow(10, s.length() - i - 1);
+//	}
+//
+//	sort(alpha.begin(), alpha.end(), greater<>());
+//
+//
+//	int i = 0;
+//	while (alpha[i] > 0) {
+//		answer += alpha[i] * (9 - i);
+//		i++;
+//	}
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-07 복습
+/*
+* 1.아이디어
+* 각 알파벳이 있는 자리수를 저장한다. 예를들어 GCF ACDEB 를 자리수로 계산하면 A는 10000, C는 1000+10, D는 100, G는 100, F는 1, E는 10, B는 1이다.
+* 이것을 각각 알파벳을 저장하고 내림차순 정렬한다.
+* 정렬한 순서대로 9~0까지 저장한 값과 곱해서 answer에 더해준다.
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
+int alpha[26];
+
 int main(void) {
 
-	int N;
-	int answer = 0;
+	int N, answer = 0;
 	cin >> N;
 
-	vector<int> alpha(26, 0);
-	vector<string> v(N);
+	vector<string> str(N);
 
-	for (auto& s : v)
+	for (auto& s : str)
 		cin >> s;
 
-	for (auto& s : v) {
-		for (int i = 0; i < s.length(); i++)
-			alpha[s[i] - 'A'] += pow(10, s.length() - i - 1);
+	for (auto& s : str) {
+		for (int j = 0; j < s.size(); j++) {
+			alpha[s[j] - 'A'] += pow(10, s.size() - j - 1);
+		}
 	}
 
-	sort(alpha.begin(), alpha.end(), greater<>());
+	sort(alpha, alpha + 26, greater<>());
 
-
-	int i = 0;
-	while (alpha[i] > 0) {
-		answer += alpha[i] * (9 - i);
-		i++;
+	int index = 9;
+	for (auto& i : alpha) {
+		answer += i * index;
+		index--;
 	}
+
 	cout << answer;
 
 	return 0;
