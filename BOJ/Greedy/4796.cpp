@@ -38,23 +38,52 @@
 * 3.변수형
 * int :
 */
-
+//#include <iostream>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int i = 1;
+//	while (true) {
+//		int L, P, V;
+//		cin >> L >> P >> V;
+//
+//		if (!L && !P && !V)
+//			break;
+//
+//		cout << "Case " << i << ": " << (V / P) * L + min((V % P), L) << "\n";
+//		i++;
+//	}
+//
+//	return 0;
+//}
+//2023-03-08 복습
+/*
+* 1.아이디어
+* 총 휴가일에서 8을 나눈 몫을 가능한 사용일과 곱해주고
+* 나머지는 더해주는데 이때 사용가능한 일수를 넘으면 해당 일수로 갱신해준다.
+*
+* 2.시간복잡도
+* 3.변수형
+*/
 #include <iostream>
 
 using namespace std;
 
 int main(void) {
 
+	int L, P, V, answer;
+
 	int i = 1;
 	while (true) {
-		int L, P, V;
 		cin >> L >> P >> V;
-
 		if (!L && !P && !V)
 			break;
 
-		cout << "Case " << i << ": " << (V / P) * L + min((V % P), L) << "\n";
-		i++;
+		answer = (V / P) * L;
+		answer += min(L, (V % P));
+		cout << "Case " << i++ << ": " << answer << "\n";
 	}
 
 	return 0;

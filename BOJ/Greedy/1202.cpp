@@ -161,46 +161,103 @@
 * 3.변수형
 * long long : 보석의 값이 최대 100000000 이므로 100000000*300000(가방의 수)는 long long을 사용해야 한다.
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//#include <queue>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, K;
+//	long long answer = 0;
+//	priority_queue<int> pq;
+//	cin >> N >> K;
+//
+//	vector<pair<int, int>> v(N);
+//	vector<int> bp(K);
+//	for (auto& p : v) {
+//		cin >> p.first >> p.second;
+//	}
+//
+//	for (auto& i : bp) {
+//		cin >> i;
+//	}
+//
+//	sort(v.begin(), v.end());
+//	sort(bp.begin(), bp.end());
+//
+//	int index = 0;
+//	for (int i = 0; i < K; i++) {
+//
+//		while (index < N && v[index].first <= bp[i]) {
+//			pq.push(v[index].second);
+//			index++;
+//		}
+//		if (!pq.empty()) {
+//			answer += pq.top();
+//			pq.pop();
+//		}
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-08복습
+/*
+* 1.아이디어
+* 가방을 오름차순으로 정렬하고 해당 가방에 담을 수 있는 모든 보석의 가치를 넣는다.
+* 가장 높은 가치가 top이 되도록 우선순위 큐를 사용하고 해당 보석을 가방에 넣는다.
+* 이미 넣은 보석은 넣지 않도록한다.
+*
+* 2.시간복잡도
+* sort로 인해 O(NlogN+KlogK), N, K<=300000 따라서 가능
+* 3.변수형
+* long long : 넣은 보석의 가치가 가장 클 경우 int형을 넘으므로 long long
+*/
 #include <iostream>
+#include <queue>
 #include <vector>
 #include <algorithm>
-#include <queue>
 
 using namespace std;
 
 int main(void) {
 
-	int N, K;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	long long answer = 0;
+	int N, K;
 	priority_queue<int> pq;
+
 	cin >> N >> K;
-
-	vector<pair<int, int>> v(N);
-	vector<int> bp(K);
-	for (auto& p : v) {
+	vector<pair<int, int>> jewelry(N);
+	for (auto& p : jewelry)
 		cin >> p.first >> p.second;
-	}
 
-	for (auto& i : bp) {
+	vector<int> bp(K);
+	for (auto& i : bp)
 		cin >> i;
-	}
 
-	sort(v.begin(), v.end());
+	sort(jewelry.begin(), jewelry.end());
 	sort(bp.begin(), bp.end());
 
 	int index = 0;
 	for (int i = 0; i < K; i++) {
 
-		while (index < N && v[index].first <= bp[i]) {
-			pq.push(v[index].second);
+		while (index < N && jewelry[index].first <= bp[i]) {
+			pq.push(jewelry[index].second);
 			index++;
 		}
+
 		if (!pq.empty()) {
 			answer += pq.top();
 			pq.pop();
 		}
 	}
-
 	cout << answer;
 
 	return 0;
