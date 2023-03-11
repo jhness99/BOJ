@@ -18,51 +18,51 @@
 * 3.변수형
 * int
 */
-#include <iostream>
-
-using namespace std;
+//#include <iostream>
+//
+//using namespace std;
 
 //int Max[100001][3];		//메모리제한
 //int Min[100001][3];
 
-int MaxDP[3];
-int MinDP[3];
-
-int main(void) {
-
-	int N;
-	cin >> N;
-
-	for (int i = 0; i < 3; i++) {
-		int temp;
-		cin >> temp;
-		MaxDP[i] = temp;
-		MinDP[i] = temp;
-	}
-
-	for (int i = 1; i < N; i++) {
-		int input[3];
-		cin >> input[0] >> input[1] >> input[2];
-		int temp0 = MaxDP[0];
-		int temp1 = MaxDP[1];
-		int temp2 = MaxDP[2];
-
-		MaxDP[0] = max(MaxDP[0], MaxDP[1]) + input[0];
-		MaxDP[2] = max(MaxDP[1], MaxDP[2]) + input[2];
-		MaxDP[1] = max(max(temp0, temp1), temp2) + input[1];
-
-		temp0 = MinDP[0];
-		temp1 = MinDP[1];
-		temp2 = MinDP[2];
-
-		MinDP[0] = min(MinDP[0], MinDP[1]) + input[0];
-		MinDP[2] = min(MinDP[1], MinDP[2]) + input[2];
-		MinDP[1] = min(min(temp0, temp1), temp2) + input[1];
-	}
-	int maxNum = max(max(MaxDP[0], MaxDP[1]), MaxDP[2]);
-	int minNum = min(min(MinDP[0], MinDP[1]), MinDP[2]);
-
-	cout << maxNum << " " << minNum;
+//int MaxDP[3];
+//int MinDP[3];
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	for (int i = 0; i < 3; i++) {
+//		int temp;
+//		cin >> temp;
+//		MaxDP[i] = temp;
+//		MinDP[i] = temp;
+//	}
+//
+//	for (int i = 1; i < N; i++) {
+//		int input[3];
+//		cin >> input[0] >> input[1] >> input[2];
+//		int temp0 = MaxDP[0];
+//		int temp1 = MaxDP[1];
+//		int temp2 = MaxDP[2];
+//
+//		MaxDP[0] = max(MaxDP[0], MaxDP[1]) + input[0];
+//		MaxDP[2] = max(MaxDP[1], MaxDP[2]) + input[2];
+//		MaxDP[1] = max(max(temp0, temp1), temp2) + input[1];
+//
+//		temp0 = MinDP[0];
+//		temp1 = MinDP[1];
+//		temp2 = MinDP[2];
+//
+//		MinDP[0] = min(MinDP[0], MinDP[1]) + input[0];
+//		MinDP[2] = min(MinDP[1], MinDP[2]) + input[2];
+//		MinDP[1] = min(min(temp0, temp1), temp2) + input[1];
+//	}
+//	int maxNum = max(max(MaxDP[0], MaxDP[1]), MaxDP[2]);
+//	int minNum = min(min(MinDP[0], MinDP[1]), MinDP[2]);
+//
+//	cout << maxNum << " " << minNum;
 
 	//메모리 제한
 	/*for (int i = 1; i <= N; i++) {
@@ -89,6 +89,58 @@ int main(void) {
 	}
 
 	cout << maxNum << " " << minNum;*/
+
+//	return 0;
+//}
+//2023-03-09 복습
+/*
+* 1.아이디어
+* 간단한 dp문제
+* 내려가면서 비교해주면서 갱신해주면된다.
+* 여기서 메모리 제한이 있기 때문에 MaxNum[3]과MinNum[3]을 만들어 동시에 갱신해주면 된다.
+*
+* 2.시간복잡도
+* O(N) N<=100000 따라서 가능
+* 3.변수형
+*
+*/
+#include <iostream>
+
+using namespace std;
+
+int MaxNum[3];
+int MinNum[3];
+
+int main(void) {
+
+	int N;
+	cin >> N;
+
+	for (int i = 0; i < N; i++) {
+		int input[3];
+		for (auto& i : input)
+			cin >> i;
+
+		int temp0 = MaxNum[0];
+		int temp1 = MaxNum[1];
+		int temp2 = MaxNum[2];
+
+		MaxNum[0] = max(MaxNum[0], MaxNum[1]) + input[0];
+		MaxNum[2] = max(MaxNum[1], MaxNum[2]) + input[2];
+		MaxNum[1] = max(temp0, max(temp1, temp2)) + input[1];
+
+		temp0 = MinNum[0];
+		temp1 = MinNum[1];
+		temp2 = MinNum[2];
+
+		MinNum[0] = min(MinNum[0], MinNum[1]) + input[0];
+		MinNum[2] = min(MinNum[1], MinNum[2]) + input[2];
+		MinNum[1] = min(temp0, min(temp1, temp2)) + input[1];
+	}
+	int Max = max(max(MaxNum[0], MaxNum[1]), MaxNum[2]);
+	int Min = min(min(MinNum[0], MinNum[1]), MinNum[2]);
+
+	cout << Max << " " << Min;
 
 	return 0;
 }
