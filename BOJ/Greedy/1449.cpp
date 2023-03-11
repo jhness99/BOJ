@@ -38,6 +38,45 @@
 * 3.변수형
 * int :
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, L, cnt = 0;
+//	cin >> N >> L;
+//
+//	vector<int> v(N);
+//	for (auto& i : v)
+//		cin >> i;
+//
+//	sort(v.begin(), v.end());
+//
+//	int prev = v[0];
+//	for (int i = 1; i < N; i++) {
+//		if (v[i] - prev > L - 1) {
+//			prev = v[i];
+//			cnt++;
+//		}
+//	}
+//
+//	cout << cnt + 1;
+//
+//	return 0;
+//}
+//2023-03-09 복습
+/*
+* 1.아이디어
+* 시작위치를 기억하고 진행하면서 다음위치와 시작 위치의 거리가 테이프길이보다 더 크면, 테이프사용개수를 1올려준다.
+* 마지막은 결국 테이프1개를 써야하므로 테이프사용개수를 기본적으로 1로 초기화한다.
+* 이때 입력받은 수리위치는 정렬로 해야 거리를 알 수 있으므로 sort를 사용한다.
+* 2.시간복잡도
+* O(NlogN) N<=1000 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -46,24 +85,24 @@ using namespace std;
 
 int main(void) {
 
-	int N, L, cnt = 0;
+	int N, L, answer = 1;
 	cin >> N >> L;
 
-	vector<int> v(N);
-	for (auto& i : v)
+	vector<int> distance(N);
+	for (auto& i : distance)
 		cin >> i;
 
-	sort(v.begin(), v.end());
+	sort(distance.begin(), distance.end());
 
-	int prev = v[0];
+	int prevLoc = distance[0];
+
 	for (int i = 1; i < N; i++) {
-		if (v[i] - prev > L - 1) {
-			prev = v[i];
-			cnt++;
+		if (distance[i] - prevLoc >= L) {
+			answer++;
+			prevLoc = distance[i];
 		}
 	}
-
-	cout << cnt + 1;
+	cout << answer;
 
 	return 0;
 }
