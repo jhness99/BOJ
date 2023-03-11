@@ -69,6 +69,66 @@
 * 3.변수형
 * int :
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, M, answer = 0;
+//	cin >> N >> M;
+//
+//	vector<vector<char>> map1(N, vector<char>(M));
+//	vector<vector<char>> map2(N, vector<char>(M));
+//
+//	for (auto& v : map1)
+//		for (auto& i : v)
+//			cin >> i;
+//
+//	for (auto& v : map2)
+//		for (auto& i : v)
+//			cin >> i;
+//
+//	for (int i = 0; i < N - 2; i++) {
+//		for (int j = 0; j < M - 2; j++) {
+//			if (map1[i][j] != map2[i][j]) {
+//				for (int k = i; k <= i + 2; k++) {
+//					for (int l = j; l <= j + 2; l++) {
+//						if (map1[k][l] == '1')
+//							map1[k][l] = '0';
+//						else
+//							map1[k][l] = '1';
+//					}
+//				}
+//				answer++;
+//			}
+//		}
+//	}
+//
+//	for (int i = 0; i < N; i++) {
+//		for (int j = 0; j < M; j++) {
+//			if (map1[i][j] != map2[i][j]) {
+//				cout << -1;
+//				return 0;
+//			}
+//		}
+//	}
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-10 복습
+/*
+* 1.아이디어
+* 단순하게 모든행을 3x3연산하면 된다
+* 이때 3x3연산이란, 3x3에 있는 수들을 1->0, 0->1로 바꿔주면 된다.
+* 만약 입력된 수가 3보다 작으면 3x3연산을 할 수 없기 때문에 -1을 해주면 되고
+* 연산 후 모든 칸에 대해서 a행렬과 b행렬이 다르다면 -1을 해주면 된다.
+* 2.시간복잡도
+* O(NM), N,M <= 50, 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 
@@ -79,42 +139,42 @@ int main(void) {
 	int N, M, answer = 0;
 	cin >> N >> M;
 
-	vector<vector<char>> map1(N, vector<char>(M));
-	vector<vector<char>> map2(N, vector<char>(M));
+	vector<string> A(N);
+	vector<string> B(N);
 
-	for (auto& v : map1)
-		for (auto& i : v)
-			cin >> i;
+	for (auto& s : A) {
+		cin >> s;
+	}
 
-	for (auto& v : map2)
-		for (auto& i : v)
-			cin >> i;
+	for (auto& s : B) {
+		cin >> s;
+	}
 
 	for (int i = 0; i < N - 2; i++) {
 		for (int j = 0; j < M - 2; j++) {
-			if (map1[i][j] != map2[i][j]) {
-				for (int k = i; k <= i + 2; k++) {
-					for (int l = j; l <= j + 2; l++) {
-						if (map1[k][l] == '1')
-							map1[k][l] = '0';
+			if (A[i][j] != B[i][j]) {
+				for (int k = i; k < i + 3; k++) {
+					for (int l = j; l < j + 3; l++) {
+						if (A[k][l] == '0')
+							A[k][l] = '1';
 						else
-							map1[k][l] = '1';
+							A[k][l] = '0';
 					}
 				}
 				answer++;
 			}
 		}
 	}
-
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (map1[i][j] != map2[i][j]) {
+			if (A[i][j] != B[i][j]) {
 				cout << -1;
 				return 0;
 			}
 		}
 	}
 	cout << answer;
+
 
 	return 0;
 }

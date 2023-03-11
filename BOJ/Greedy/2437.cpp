@@ -52,6 +52,48 @@
 * 3.변수형
 * int :
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	vector<int> v(N);
+//
+//	for (auto& i : v)
+//		cin >> i;
+//
+//	sort(v.begin(), v.end());
+//
+//	int sum = 1;
+//	for (int i = 0; i < N; i++) {
+//		if (sum < v[i])
+//			break;
+//		sum += v[i];
+//	}
+//	cout << sum;
+//
+//	return 0;
+//}
+//2023-03-10 복습
+/*
+* 1.아이디어
+* 먼저 입력받은 추를 모두 오름차순 정렬한다.
+* 초기값을 1로 지정하고 시작한다
+* 여기서 초기값이 1인 이유는 무게가 최소 1이고 가능한 무게 + 1이 되어야 하므로
+* 현재 가능한 무게가 0이라고 가정했기때문에 1부터 비교하는것이다.
+* 만약 다음수가 1과 같거나 작다면, 그 수 까지는 가능한 것이므로 answer += w[i];
+* 만약 다음수가 더 크다면, break로 반복문을 나가주고 answer가 최솟값이 됨
+* 2.시간복잡도
+* 정렬로 인해 O(NlogN), N<=1000, 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -60,23 +102,21 @@ using namespace std;
 
 int main(void) {
 
-	int N;
+	int N, answer = 1;
 	cin >> N;
-
-	vector<int> v(N);
-
-	for (auto& i : v)
+	vector<int> w(N);
+	for (auto& i : w)
 		cin >> i;
 
-	sort(v.begin(), v.end());
+	sort(w.begin(), w.end());
 
-	int sum = 1;
 	for (int i = 0; i < N; i++) {
-		if (sum < v[i])
+		if (answer >= w[i])
+			answer += w[i];
+		else
 			break;
-		sum += v[i];
 	}
-	cout << sum;
+	cout << answer;
 
 	return 0;
 }
