@@ -13,6 +13,77 @@
 * vector<int> LIS[1001] : 각 숫자의 위치를 기준으로 가장 긴 수열을 저장해주는 배열
 * dp[1001] : 각 숫자의 위치를 기준으로 가장 긴 수열의 길이
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int dp[1001];
+//int arr[1001];
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	for (int i = 1; i <= N; i++)
+//		cin >> arr[i];
+//
+//	vector<int> LIS[1001];
+//	vector<int> answer;
+//	for (int i = 1; i <= N; i++) {
+//		dp[i] = 1;
+//		LIS[i].push_back(arr[i]);
+//		for (int j = 1; j < i; j++) {
+//			//만약 해당수가 탐색하고 있는 arr[i]보다 작으면서 수열은 i번째가 계산중인 수열보다 크거나 같다면
+//			//dp[j]의 수열에 해당 수를 더해서 dp[i]를 갱신해주고 수열도 LIS[i]에 갱신해준다.
+//			if (arr[i] > arr[j] && dp[j] >= dp[i]) {
+//				//수열 갱신작업
+//				LIS[i].clear();
+//				LIS[i] = LIS[j];
+//				LIS[i].push_back(arr[i]);
+//				//수열 길이 갱신
+//				dp[i] = dp[j] + 1;
+//			}
+//		}
+//		if (answer.size() < LIS[i].size())
+//		{
+//			answer = LIS[i];
+//		}
+//	}
+//
+//	cout << answer.size() << "\n";
+//	for (auto& i : answer)
+//		cout << i << " ";
+//
+//	return 0;
+//}
+//2023-03-10 복습
+/*
+* 1.아이디어
+* LIS문제이다 N이 1000이므로 O(N^2)도 가능하므로 dp로 한다.
+*
+* DP로 LIS구현하기
+* for(int i = 0; i < N; i++)
+*	dp[i] = 1;
+*	for(int j = 0; j < i;j++)
+*		if(arr[i] > arr[j] && dp[j] >= dp[i])
+*			dp[i] = dp[j] + 1;
+*
+* 여기서 문자열을 추가하려면, vector<int> LIS[1001]을 사용해서 추가함,
+* 처음 dp[i]를 초기화할때 LIS[i].push_back(arr[i])로 초기화하고
+* 만약 새로 수열이 갱신될 때, LIS또한 갱신,
+* LIS.clear()
+* LIS[i] = LIS[j];
+* LIS[i].push_back(arr[i])
+*
+* 가장 긴 수열과 해당 수열의 LIS를 찾아서 저장,
+* 저장한 값들을 출력하면 된다.
+* 2.시간복잡도
+* N이 1000이므로 O(N^2) 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <vector>
 
@@ -29,30 +100,28 @@ int main(void) {
 	for (int i = 1; i <= N; i++)
 		cin >> arr[i];
 
+	int Max = -1;
 	vector<int> LIS[1001];
 	vector<int> answer;
 	for (int i = 1; i <= N; i++) {
 		dp[i] = 1;
 		LIS[i].push_back(arr[i]);
 		for (int j = 1; j < i; j++) {
-			//만약 해당수가 탐색하고 있는 arr[i]보다 작으면서 수열은 i번째가 계산중인 수열보다 크거나 같다면
-			//dp[j]의 수열에 해당 수를 더해서 dp[i]를 갱신해주고 수열도 LIS[i]에 갱신해준다.
 			if (arr[i] > arr[j] && dp[j] >= dp[i]) {
-				//수열 갱신작업
 				LIS[i].clear();
 				LIS[i] = LIS[j];
 				LIS[i].push_back(arr[i]);
-				//수열 길이 갱신
 				dp[i] = dp[j] + 1;
 			}
 		}
+		Max = max(Max, dp[i]);
 		if (answer.size() < LIS[i].size())
 		{
 			answer = LIS[i];
 		}
 	}
 
-	cout << answer.size() << "\n";
+	cout << Max << "\n";
 	for (auto& i : answer)
 		cout << i << " ";
 
