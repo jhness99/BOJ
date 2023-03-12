@@ -62,6 +62,66 @@
 * 2.시간복잡도
 * 3.변수형
 */
+//#include <iostream>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int oddNum = 0;
+//	char oddChar;
+//	int alpha[26] = { 0, };
+//	string answer = "";
+//	string str;
+//	cin >> str;
+//
+//	for (auto& c : str)
+//		alpha[c - 'A']++;
+//
+//
+//	for (int i = 0; i < 26; i++) {
+//		if (alpha[i] == 0) continue;
+//		if (alpha[i] % 2 == 1) {
+//			oddNum++;
+//			oddChar = i + 'A';
+//		}
+//	}
+//
+//	if (oddNum >= 2) {
+//		cout << "I'm Sorry Hansoo";
+//		return 0;
+//	}
+//
+//	for (int i = 0; i < 26; i++) {
+//		for (int j = 0; j < alpha[i] / 2; j++)
+//			answer += ('A' + i);
+//	}
+//	string reverseStr = answer;
+//	reverse(reverseStr.begin(), reverseStr.end());
+//
+//	if (oddNum)
+//		answer += oddChar;
+//	answer += reverseStr;
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-12 복습
+/*
+* 1.아이디어
+* 입력받은 문자열의 알파벳의 갯수를 세어서 저장
+* 저장한 배열에서 홀수가 2개이상 나온다면, 불가능
+* 홀수가 1개거나 0개라면 가능
+* 각 문자를 알파벳 순서대로 절반만 저장, 홀수일경우 해당 알파벳이 어떤 알파벳인지 저장
+* 절반만 저장한 문자열을 반대로 돌려서 답에 추가, 추가하기전에 홀수로 나온 저장해둔 알파벳먼저 추가
+*
+* 2.시간복잡도
+* 문자열이 최대 50글자이므로 O(N) 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <algorithm>
 
@@ -69,22 +129,23 @@ using namespace std;
 
 int main(void) {
 
-	int oddNum = 0;
-	char oddChar;
 	int alpha[26] = { 0, };
-	string answer = "";
+	int oddNum = 0;
+
+	string answer;
 	string str;
 	cin >> str;
 
-	for (auto& c : str)
-		alpha[c - 'A']++;
+	char oddChar = ' ';
 
+	for (int i = 0; i < str.size(); i++)
+		alpha[str[i] - 'A']++;
 
 	for (int i = 0; i < 26; i++) {
 		if (alpha[i] == 0) continue;
-		if (alpha[i] % 2 == 1) {
+		if (alpha[i] % 2 != 0) {
 			oddNum++;
-			oddChar = i + 'A';
+			oddChar = 'A' + i;
 		}
 	}
 
@@ -95,14 +156,14 @@ int main(void) {
 
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < alpha[i] / 2; j++)
-			answer += ('A' + i);
+			answer += 'A' + i;
 	}
-	string reverseStr = answer;
-	reverse(reverseStr.begin(), reverseStr.end());
 
+	string temp = answer;
+	reverse(temp.begin(), temp.end());
 	if (oddNum)
 		answer += oddChar;
-	answer += reverseStr;
+	answer += temp;
 
 	cout << answer;
 

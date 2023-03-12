@@ -95,6 +95,83 @@
 * vector<int> schedule(K) : 스케쥴을 저장해주는 벡터
 * vector<int> multiTap(N, 0) : 멀티탭에 어떤 전기제품이 끼워져있는지
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, K, answer = 0;
+//	cin >> N >> K;
+//
+//	vector<int> schedule(K);
+//	vector<int> multiTap(N, 0);
+//
+//	for (auto& i : schedule)
+//		cin >> i;
+//
+//	for (int i = 0; i < K; i++) {
+//		bool flag = false;
+//		for (int j = 0; j < N; j++) {
+//			if (multiTap[j] == schedule[i]) {
+//				flag = true;
+//				break;
+//			}
+//		}
+//		if (flag)
+//			continue;
+//
+//		for (int j = 0; j < N; j++) {
+//			if (multiTap[j] == 0) {
+//				flag = true;
+//				multiTap[j] = schedule[i];
+//				break;
+//			}
+//		}
+//		if (flag)
+//			continue;
+//
+//		int changeNum = -1;
+//		int num = -1;
+//
+//		for (int j = 0; j < N; j++) {
+//			int temp = 0;
+//			for (int k = i + 1; k < K; k++) {
+//				if (schedule[k] == multiTap[j])
+//					break;
+//				temp++;
+//			}
+//			if (num < temp) {
+//				num = temp;
+//				changeNum = j;
+//			}
+//		}
+//		multiTap[changeNum] = schedule[i];
+//		answer++;
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-12 복습
+/*
+* 1.아이디어
+* 먼저 플레그에 최대한 콘센트를 꼽는다.
+*
+* 우리는 만약 플레그를 뽑아야 할 경우를 확인하고
+* 만약 뽑아야 한다면 가장 마지막에 나오는 전기용품이 있는 콘센트를 뽑고 새로운 콘센트를 끼워주기만 하면 된다.
+* 그리고 해당 연산을 했다면 cnt를 해주면 된다.
+*
+* (틀린이유)
+* 먼저 중복되는 곳이 있는지 확인해야 한다. 빈 곳부터 확인하면 빈곳이 없지만 중복되어 들어갈 수 있으므로
+* 중복되는 부분을 체크 안 할수 있기 때문이다.
+*
+* 2.시간복잡도
+*
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 
@@ -102,17 +179,19 @@ using namespace std;
 
 int main(void) {
 
-	int N, K, answer = 0;
-	cin >> N >> K;
+	int N, M, answer = 0;
+	cin >> N >> M;
 
-	vector<int> schedule(K);
 	vector<int> multiTap(N, 0);
+	vector<int> schedule(M);
 
 	for (auto& i : schedule)
 		cin >> i;
 
-	for (int i = 0; i < K; i++) {
+	for (int i = 0; i < M; i++) {
+
 		bool flag = false;
+
 		for (int j = 0; j < N; j++) {
 			if (multiTap[j] == schedule[i]) {
 				flag = true;
@@ -132,25 +211,24 @@ int main(void) {
 		if (flag)
 			continue;
 
-		int changeNum = -1;
+		int ChangeLoc = -1;
 		int num = -1;
 
 		for (int j = 0; j < N; j++) {
 			int temp = 0;
-			for (int k = i + 1; k < K; k++) {
-				if (schedule[k] == multiTap[j])
+			for (int k = i + 1; k < M; k++) {
+				if (multiTap[j] == schedule[k])
 					break;
 				temp++;
 			}
-			if (num < temp) {
+			if (temp > num) {
 				num = temp;
-				changeNum = j;
+				ChangeLoc = j;
 			}
 		}
-		multiTap[changeNum] = schedule[i];
+		multiTap[ChangeLoc] = schedule[i];
 		answer++;
 	}
-
 	cout << answer;
 
 	return 0;
