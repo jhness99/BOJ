@@ -54,6 +54,49 @@
 * 2.시간복잡도
 * 3.변수형
 */
+//#include <iostream>
+//#include <deque>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, K;
+//	string str;
+//	deque<char> dq;
+//	cin >> N >> K;
+//
+//	cin >> str;
+//
+//	for (auto& c : str) {
+//		while (K && !dq.empty() && dq.back() < c) {
+//			dq.pop_back();
+//			K--;
+//		}
+//		dq.push_back(c);
+//	}
+//
+//	for (int i = 0; i < dq.size() - K; i++)
+//		cout << dq[i];
+//
+//	return 0;
+//}
+//2023-03-13 복습
+/*
+* 1.아이디어
+* 못참고 내 풀이를 봐버렸다.
+* 스택을 사용하면된다.
+*
+* string으로 받아서 첫번째부터 스택에 넣는데 이때 넣어진 값보다 내 값이 더 크다면, 해당 top을 pop해버리고 넣는다.
+*
+* (틀린부분)
+* 또 같은 부분에서 틀렸다.
+* K가 0이 아닌경우도 포함해서 출력해야 되는데 그것을 까먹었다.
+*
+* 2.시간복잡도
+* O(N) N<=500000 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <deque>
 
@@ -62,21 +105,22 @@ using namespace std;
 int main(void) {
 
 	int N, K;
-	string str;
-	deque<char> dq;
 	cin >> N >> K;
 
+	string str;
 	cin >> str;
 
-	for (auto& c : str) {
-		while (K && !dq.empty() && dq.back() < c) {
+	deque<char> dq;
+
+	for (int i = 0; i < str.size(); i++) {
+		while (K && !dq.empty() && dq.back() < str[i]) {
 			dq.pop_back();
 			K--;
 		}
-		dq.push_back(c);
+		dq.push_back(str[i]);
 	}
 
-	for (int i = 0; i < dq.size() - K; i++)
+	for (int i = 0; i < dq.size() - K; i++)//틀린부분
 		cout << dq[i];
 
 	return 0;
