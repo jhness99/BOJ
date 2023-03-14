@@ -82,48 +82,110 @@
 * 3.변수형
 *
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+////각 게이트의 루트
+//int parents[100001];
+//
+//int G;
+//
+////해당 노드의 루트노드를 반환하는 함수, 루트노드가 아닐경우 parents를 루트노드로 갱신해준다.
+//int Find(int g) {
+//	if (parents[g] == g) return g;
+//	return parents[g] = Find(parents[g]);
+//}
+//
+////c와 p를 받아 c의 부모노드를 p로 바꿔주는 함수
+//void Union(int c, int p) {
+//	c = Find(c);
+//	p = Find(p);
+//
+//	parents[c] = p;
+//}
+//
+//int main(void) {
+//
+//	int P, cnt = 0;
+//	cin >> G >> P;
+//
+//	for (int i = 1; i <= G; i++)
+//		parents[i] = i;
+//
+//	while (P--) {
+//		int G;
+//		cin >> G;
+//		if (Find(G) == 0)
+//			break;
+//		else {
+//			cnt++;
+//			Union(Find(G), Find(G) - 1);
+//		}
+//	}
+//	cout << cnt;
+//
+//	return 0;
+//}
+//2023-03-14 복습
+/*
+* 1.아이디어
+* 유니온 파운드를 사용해야한다.
+* 유니온 파운드의 개념을 재정의하고 문제를 풀어보자
+*
+* 유니온파운드는 그래프 알고리즘으로 두 노드가 같은 그래프에 속하는지 판별하는 알고리즘이다.
+* 서로소 집합, 상호베타적집합(Disjoint-Set)이라고도 불린다.
+* 노드를 합치는 Union연산과 루트노드를 찾는 find연산으로 나뉜다.
+* union(A,B)는 B를 A의 부모로 만들어주는 연산이다.
+* find(A)는 A의 루트노드(가장 위에 있는 부모노드)를 찾는 연산이다.
+* 따라서 union(A, B)를 하고 find(A)를 하게되면 B가 나오게 된다.
+*
+* G만큼의 게이트를 초기화한다. 초기에는 자기자신을 가리키게 한다.
+* P만큼 게이트위치를 입력 받는다.
+* 입력받은 값이 0과 연결, 즉 더이상 넣을 수 없을경우 반복문을 나간다./
+* 만약 0이 아니라면, 해당 게이트의 루트 게이트를 알아내고 해당 루트게이트의 다음 게이트를 해당 게이트의 부모로 지정해서
+* 결국 Union(A, B)라 가정했을 때, B -> A 가 되도록 B를 A의 부모로 설정해 주는것이다.
+* 이 연산이 끝나면 answer++해주고 다시 반복한다.
+* 2.시간복잡도
+*
+*/
 #include <iostream>
 
 using namespace std;
 
-//각 게이트의 루트
-int parents[100001];
+int gate[100001];
 
-int G;
-
-//해당 노드의 루트노드를 반환하는 함수, 루트노드가 아닐경우 parents를 루트노드로 갱신해준다.
-int Find(int g) {
-	if (parents[g] == g) return g;
-	return parents[g] = Find(parents[g]);
+int Find(int u) {
+	if (gate[u] == u) return u;
+	return gate[u] = Find(gate[u]);
 }
 
-//c와 p를 받아 c의 부모노드를 p로 바꿔주는 함수
-void Union(int c, int p) {
-	c = Find(c);
-	p = Find(p);
+void Union(int u, int v) {
+	u = Find(u);
+	v = Find(v);
 
-	parents[c] = p;
+	gate[u] = v;
 }
 
 int main(void) {
 
-	int P, cnt = 0;
+	int G, P, answer = 0;
 	cin >> G >> P;
 
-	for (int i = 1; i <= G; i++)
-		parents[i] = i;
+	for (int i = 0; i <= G; i++)
+		gate[i] = i;
 
 	while (P--) {
-		int G;
-		cin >> G;
-		if (Find(G) == 0)
+		int g;
+		cin >> g;
+		if (Find(g) == 0)
 			break;
 		else {
-			cnt++;
-			Union(Find(G), Find(G) - 1);
+			answer++;
+			Union(Find(g), Find(g) - 1);
 		}
 	}
-	cout << cnt;
+	cout << answer;
 
 	return 0;
 }
