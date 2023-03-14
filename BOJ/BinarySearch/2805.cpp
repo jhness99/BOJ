@@ -58,3 +58,64 @@ int main(void) {
 
 	return 0;
 }
+//2023-03-14 복습
+/*
+* 1.아이디어
+* 최대 나무길이가 10억이고 가져갈 나무 길이가 최대 20억이기 때문에
+* 최악의 경우 10억번 확인해야하므로 이분탐색을 사용해서 풀어야 한다.
+*
+* 가장 긴 나무를 right, 0을 left로 하고 이분탐색을 시작
+* mid를 구해서 mid로 설정했을 때 각 나무들이 잘리는 값을 total에 저장한다. (total += tree[i] - mid )
+* 이때 -가 더해지지 않도록 tree가 mid보다 같거나 클 경우만 더해준다.
+* 더한 total이 최소한으로 필요한 양에 근접하도록
+* total이 M과 같거나 크다면, mid를 키워줘야 하므로 start = mid + 1, answer = mid;
+* total이 M보다 작다면, mid를 줄여줘야 하므로 end = mid -1;
+*
+* 2.시간복잡도
+* 이분탐색에서 N개의 나무만큼 반복하므로, O(NlogMax) N<=100000, 따라서 가능
+* 3.변수형
+* long long total : 최악의 경우 10억을 100000번 더해야 할 수 있으므로 long long
+*/
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(void) {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, M, answer = 0;
+	cin >> N >> M;
+
+	int Max = -1;
+	vector<int> tree(N);
+	for (auto& i : tree) {
+		cin >> i;
+		Max = max(Max, i);
+	}
+
+	int left = 0;
+	int right = Max;
+
+	while (left <= right) {
+		int mid = (left + right) / 2;
+		long long total = 0;
+		for (int i = 0; i < N; i++) {
+			if (tree[i] >= mid)
+				total += tree[i] - mid;
+		}
+
+		if (total >= M) {
+			answer = mid;
+			left = mid + 1;
+		}
+		else
+			right = mid - 1;
+	}
+
+	cout << answer;
+
+	return 0;
+}
