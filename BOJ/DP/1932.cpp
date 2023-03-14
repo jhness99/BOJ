@@ -12,11 +12,56 @@
 * 3.변수형
 * int : 삼각형의 각 정수의 최대값이 9999이므로 int
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	vector<vector<int>> v(N);
+//
+//	for (int i = 0; i < N; i++) {
+//		for (int j = 0; j <= i; j++) {
+//			int temp;
+//			cin >> temp;
+//			v[i].push_back(temp);
+//		}
+//	}
+//	
+//	for (int i = N - 1; i > 0; i--) {
+//		for (int j = 0; j < i; j++) {
+//			v[i - 1][j] += max(v[i][j], v[i][j + 1]);
+//		}
+//	}
+//
+//	cout << v[0][0];
+//
+//	return 0;
+//}
+//2023-03-14 복습
+/*
+* 1.아이디어
+* 가장 마지막 -1 행에서 부터 시작해서 아래 2개의 수를 확인해서 더 큰 값을 더해준다.
+* 가장 위에 값이 가장 큰 합이라고 할 수 있다.
+*
+* for(int i = N-1; i >= 1; i--){
+*	for(int j = 0; j < v[i].size(); j++)
+*		v[i-1][j] += max(v[i][j], v[i][j+1]);
+*
+* 2.시간복잡도
+* O(N^2), N<=500 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <vector>
 
 using namespace std;
-
 
 int main(void) {
 
@@ -24,7 +69,6 @@ int main(void) {
 	cin >> N;
 
 	vector<vector<int>> v(N);
-
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j <= i; j++) {
 			int temp;
@@ -32,11 +76,10 @@ int main(void) {
 			v[i].push_back(temp);
 		}
 	}
-	
-	for (int i = N - 1; i > 0; i--) {
-		for (int j = 0; j < i; j++) {
+
+	for (int i = N - 1; i >= 1; i--) {
+		for (int j = 0; j < i; j++)
 			v[i - 1][j] += max(v[i][j], v[i][j + 1]);
-		}
 	}
 
 	cout << v[0][0];
