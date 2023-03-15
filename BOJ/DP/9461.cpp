@@ -22,13 +22,49 @@ int main(void) {
 	dp[2] = 1;
 	dp[3] = 1;
 	
-	for (int i = 4; i <= 100l; i++)
+	for (int i = 4; i <= 100; i++)
 		dp[i] = dp[i - 2] + dp[i - 3];
 
 	while (T--) {
 		int N;
 		cin >> N;
 
+		cout << dp[N] << "\n";
+	}
+
+	return 0;
+}
+//2023-03-15 복습
+/*
+* 1.아이디어
+* 규칙성을 보고 풀면된다 1 1 2 2 3 4 5 7 9 의 규칙은 dp[i] = dp[i - 2] + dp[i - 3] 이다
+* 2.시간복잡도
+* O(N) N<=100 따라서 가능
+* 3.변수형
+*
+*/
+#include <iostream>
+
+using namespace std;
+
+int dp[101];
+
+int main(void) {
+
+	dp[1] = 1;
+	dp[2] = 1;
+	dp[3] = 1;
+
+	for (int i = 4; i <= 100; i++) {
+		dp[i] = dp[i - 2] + dp[i - 3];
+	}
+
+	int T;
+	cin >> T;
+
+	while (T--) {
+		int N;
+		cin >> N;
 		cout << dp[N] << "\n";
 	}
 
