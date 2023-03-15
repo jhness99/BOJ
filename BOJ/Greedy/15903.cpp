@@ -62,6 +62,55 @@
 * 틀린이유
 * 변수형 햇갈림
 */
+//#include <iostream>
+//#include <queue>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int n, m;
+//	long long answer = 0;
+//	priority_queue<long long, vector<long long>, greater<>> pq;
+//
+//	cin >> n >> m;
+//
+//	for (int i = 0; i < n; i++) {
+//		long long temp;
+//		cin >> temp;
+//		pq.push(temp);
+//	}
+//
+//	while (m--) {
+//		long long sum = 0;
+//		sum += pq.top();
+//		pq.pop();
+//		sum += pq.top();
+//		pq.pop();
+//
+//		pq.push(sum);
+//		pq.push(sum);
+//	}
+//
+//	while (!pq.empty()) {
+//		answer += pq.top();
+//		pq.pop();
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+/*
+* 1.아이디어
+* 가장 작은 값을 top으로 가지는 우선순위 큐를 생성해서 입력값을 넣는다.
+* pq에서 top을 2번 빼서 해당 값을 더하고 2번 push한다.
+* 주어진 횟수만큼 연산이 끝났다면 pq의 모든 값을 더해준다.
+* 2.시간복잡도
+* O(M), M<=15000, 따라서 가능
+* 3.변수형
+* long long : 1000000 * 2^15 따라서 long long
+*/
 #include <iostream>
 #include <queue>
 
@@ -69,27 +118,28 @@ using namespace std;
 
 int main(void) {
 
-	int n, m;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, M;
 	long long answer = 0;
-	priority_queue<long long, vector<long long>, greater<>> pq;
+	cin >> N >> M;
 
-	cin >> n >> m;
-
-	for (int i = 0; i < n; i++) {
-		long long temp;
-		cin >> temp;
-		pq.push(temp);
+	priority_queue<long long, vector<long long>, greater<long long>>pq;
+	for (int i = 0; i < N; i++) {
+		int num;
+		cin >> num;
+		pq.push(num);
 	}
 
-	while (m--) {
-		long long sum = 0;
-		sum += pq.top();
+	while (M--) {
+		long long num = pq.top();
 		pq.pop();
-		sum += pq.top();
+		num += pq.top();
 		pq.pop();
 
-		pq.push(sum);
-		pq.push(sum);
+		pq.push(num);
+		pq.push(num);
 	}
 
 	while (!pq.empty()) {

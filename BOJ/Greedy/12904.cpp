@@ -73,6 +73,51 @@
 * O(T), T<=1000, 따라서 가능
 * 3.변수형
 */
+//#include <iostream>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	string S, T;
+//	int answer = 0;
+//	cin >> S >> T;
+//
+//	while (true) {
+//		if (S.size() == T.size()) {
+//			if (S == T)
+//				answer = 1;
+//			break;
+//		}
+//		if (T.back() == 'A') {
+//			T.pop_back();
+//		}
+//		else {
+//			T.pop_back();
+//			reverse(T.begin(), T.end());
+//		}
+//	}
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-15 복습
+/*
+* 1.아이디어
+* 2가지의 연산이 있다. 이제 해당 문자열의 가능한 조건을 파악해서 역순으로 하다가 원하는 문자열이 나온다면 종료해주면 된다.
+* 이때 2가지의 연산은 구분이 가능하다. 구분하는 방법은 1번연산은 A가 뒤에 붙고 2번연산은 마지막에 B가 붙는다.
+* 즉, 주어진 문자열의 맨 뒤가 어떤 문자인지 보고 해당 문자로 몇번연산을 했는지 역순으로 생각해
+* 해당 연산을 반대로 해주면 되는것이다.
+* 예를 들어 ABBA의 경우 A가 마지막에 있으므로 1번 연산을 한 것이라고 추측할 수 있고 1번 연산을 역순으로 해주면
+* ABB가 된다. 여기서는 B가 마지막에 있으므로 2번 연산을 한 것이라고 추축할 수 있고 2번연산을 역순으로 해주면 BA가 된다
+* BA는 A가 뒤에 있으므로 1번연산을 해주고 그러면 B가 나온다. 따라서 해당문자열은 B를 만들수 있다.
+*
+* 2.시간복잡도
+* O(N) N<=1000 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <algorithm>
 
@@ -80,25 +125,24 @@ using namespace std;
 
 int main(void) {
 
-	string S, T;
-	int answer = 0;
-	cin >> S >> T;
+	string str1;
+	string str2;
 
-	while (true) {
-		if (S.size() == T.size()) {
-			if (S == T)
-				answer = 1;
-			break;
+	cin >> str1 >> str2;
+
+	while (!str2.empty()) {
+		if (str1 == str2) {
+			cout << 1;
+			return 0;
 		}
-		if (T.back() == 'A') {
-			T.pop_back();
-		}
-		else {
-			T.pop_back();
-			reverse(T.begin(), T.end());
+		if (str2.back() == 'A')
+			str2.pop_back();
+		else if (str2.back() == 'B') {
+			str2.pop_back();
+			reverse(str2.begin(), str2.end());
 		}
 	}
-	cout << answer;
+	cout << 0;
 
 	return 0;
 }
