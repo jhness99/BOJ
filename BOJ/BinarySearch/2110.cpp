@@ -16,6 +16,64 @@
 * 3.변수형
 * int
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//	
+//	int N, C;
+//	cin >> N >> C;
+//
+//	vector<int> house(N);	
+//	for (auto& i : house)
+//		cin >> i;
+//
+//	sort(house.begin(), house.end());
+//
+//	int left = 1;
+//	int right = house.back() - house[0];
+//	int answer = 0;
+//
+//	while (left <= right) {
+//		int mid = (right + left) / 2;
+//		int Count = 1;
+//
+//		int start = house[0];
+//		for(int i = 1; i < N; i++){
+//			if ((house[i] - start) >= mid) {
+//				Count++;
+//				start = house[i];
+//			}
+//		}
+//		if (Count < C)
+//			right = mid - 1;
+//		else {
+//			answer = max(answer, mid);
+//			left = mid + 1;
+//		}
+//	}
+//	cout << answer;
+//	
+//	return 0;
+//}
+//2023-03-16 복습
+/*
+* 1.아이디어
+* 공유기 사이의 거리가 최대 10억이므로 10억을 모두 카운트 하면 시간초과가 생기기 때문에 이분탐색으로 접근
+*
+* 먼저 입력값을 정렬한다.
+* 이분탐색을 하기위해 mid를 구한다.
+* 그리고 정렬된 입력값 가장 첫번째부터 시작해서 다음 집까지의 거리가 mid보다 작을경우 무시하고
+* 시작부터 그 다음집의 거리를 본다. 만약 해당 거리가 mid와 같거나 큰 경우, 그 위치에 공유기를 설치하고 +1해준다.
+* 설치할 수 있는 공유기의 총 개수가 제공되는 공유기 개수와 같거나 많을경우, start = mid + 1, answer =  mid;
+* 만약 공유기의 개수가 제공되는 공유기의 개수보다 작을경우, end = mid - 1;
+*
+* 2.시간복잡도
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -23,39 +81,41 @@
 using namespace std;
 
 int main(void) {
-	
-	int N, C;
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, C, answer = 0;
 	cin >> N >> C;
 
-	vector<int> house(N);	
-	for (auto& i : house)
+	vector<int> input(N);
+	for (auto& i : input)
 		cin >> i;
 
-	sort(house.begin(), house.end());
+	sort(input.begin(), input.end());
 
-	int left = 1;
-	int right = house.back() - house[0];
-	int answer = 0;
+	int left = 0;
+	int right = input.back() - input.front();
 
 	while (left <= right) {
-		int mid = (right + left) / 2;
-		int Count = 1;
+		int mid = (left + right) / 2;
+		int cnt = 1;
 
-		int start = house[0];
-		for(int i = 1; i < N; i++){
-			if ((house[i] - start) >= mid) {
-				Count++;
-				start = house[i];
+		int start = input.front();
+		for (int i = 1; i < N; i++) {
+			if (input[i] - start >= mid) {
+				start = input[i];
+				cnt++;
 			}
 		}
-		if (Count < C)
+		if (cnt < C)
 			right = mid - 1;
 		else {
-			answer = max(answer, mid);
+			answer = mid;
 			left = mid + 1;
 		}
 	}
 	cout << answer;
-	
+
 	return 0;
 }
