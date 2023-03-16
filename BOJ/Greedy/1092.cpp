@@ -75,6 +75,62 @@
 * O(NM)N<=50, M<=10000 따라서 가능
 * 3.변수형
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, M, answer = 0;
+//	cin >> N;
+//
+//	vector<int> c(N);
+//	for (auto& i : c)
+//		cin >> i;
+//
+//	cin >> M;
+//	vector<int> w(M);
+//	for (auto& i : w)
+//		cin >> i;
+//
+//	sort(c.begin(), c.end(), greater<>());
+//	sort(w.begin(), w.end(), greater<>());
+//
+//	if (w[0] > c[0]) {
+//		cout << -1;
+//		return 0;
+//	}
+//
+//	while (!w.empty()) {
+//		for (int i = 0; i < N; i++) {
+//			for (int j = 0; j < w.size(); j++) {
+//				if (c[i] >= w[j]) {
+//					w.erase(w.begin() + j);
+//					break;
+//				}
+//			}
+//		}
+//		answer++;
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-16 복습
+/*
+* 1.아이디어
+* 모든 수를 확인한다. N*M이 50000이므로 가능할 것 같다.
+* 먼저 입력값들을 내림차순정렬한다.
+* 짐 무게 먼저 확인해서 크레인의 운반 무게와 비교한다
+* 만약 더 짐 무게가 더 크다면,  break, 더 작을경우 크레인과 짐의 index를 줄여준다.
+* 불가능 한 경우는 크레인이 옮길 수 없을 때, 즉 내림차순 정렬 후 가장 큰 값끼리 비교해서 짐이 더 무거웠을 경우이다.
+* 이 경우에 -1을출력한다.
+* 2.시간복잡도
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -82,6 +138,9 @@
 using namespace std;
 
 int main(void) {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 
 	int N, M, answer = 0;
 	cin >> N;
@@ -91,6 +150,7 @@ int main(void) {
 		cin >> i;
 
 	cin >> M;
+
 	vector<int> w(M);
 	for (auto& i : w)
 		cin >> i;
@@ -98,11 +158,12 @@ int main(void) {
 	sort(c.begin(), c.end(), greater<>());
 	sort(w.begin(), w.end(), greater<>());
 
-	if (w[0] > c[0]) {
+	if (c.front() < w.front()) {
 		cout << -1;
 		return 0;
 	}
 
+	int index = 0;
 	while (!w.empty()) {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < w.size(); j++) {
@@ -114,7 +175,6 @@ int main(void) {
 		}
 		answer++;
 	}
-
 	cout << answer;
 
 	return 0;

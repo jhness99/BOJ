@@ -65,42 +65,96 @@
 * 3.변수형
 *
 */
+//#include <iostream>
+//#include <vector>
+//#include <map>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, M;
+//
+//	cin >> N >> M;
+//
+//	vector<string> v(N);
+//	string answer;
+//	int Count = 0;
+//
+//	for (auto& s : v)
+//		cin >> s;
+//
+//	for (int i = 0; i < M; i++) {
+//		map<char, int> m;
+//		for (int j = 0; j < N; j++)
+//			m[v[j][i]]++;
+//		char ch = ' ';
+//		int Max = -1;
+//		for (auto& p : m) {
+//			if (Max < p.second) {
+//				Max = p.second;
+//				ch = p.first;
+//			}
+//		}
+//		answer += ch;
+//		Count += N - Max;
+//	}
+//
+//	cout << answer << "\n" << Count;
+//
+//	return 0;
+//}
+//2023-03-16 복습
+/*
+* 1.아이디어
+* 해시맵을 사용해서 풀 수 있다.
+* 각 행마다가 아니라 열마다 얼마나 많은 알파벳이 나왔는지 계산하고 가장 많이 나온알파벳을 문자열에 추가해주면 된다.
+* 그리고 전체개수 - 알파벳 나온 수를 하면 Hamming Distance의 합도 알 수 있다.
+*
+* 2.시간복잡도
+* O(NM) N<=1000, M<= 50, 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
-#include <map>
+#include <algorithm>
+#include <unordered_map>
 
 using namespace std;
 
 int main(void) {
 
 	int N, M;
-
 	cin >> N >> M;
 
-	vector<string> v(N);
 	string answer;
-	int Count = 0;
-
+	int cnt = 0;
+	vector<string> v(N);
 	for (auto& s : v)
 		cin >> s;
 
 	for (int i = 0; i < M; i++) {
-		map<char, int> m;
+		unordered_map<char, int> hm;
+
 		for (int j = 0; j < N; j++)
-			m[v[j][i]]++;
-		char ch = ' ';
+			hm[v[j][i]]++;
+
 		int Max = -1;
-		for (auto& p : m) {
-			if (Max < p.second) {
-				Max = p.second;
+		char ch = ' ';
+
+		sort(hm.begin(), hm.end());
+
+		for (auto& p : hm) {
+			if (p.second > Max) {
 				ch = p.first;
+				Max = p.second;
 			}
 		}
 		answer += ch;
-		Count += N - Max;
+		cnt += N - Max;
 	}
 
-	cout << answer << "\n" << Count;
+	cout << answer << "\n" << cnt;
 
 	return 0;
 }

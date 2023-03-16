@@ -41,6 +41,40 @@
 * 정렬을 사용하므로 O(NlogN), N<=100000 따라서 가능
 * 3.변수형
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	vector<int> v(N);
+//	for (auto& i : v)
+//		cin >> i;
+//
+//	sort(v.begin(), v.end());
+//
+//	int mid = v[(N - 1) / 2];
+//
+//	cout << mid;
+//
+//	return 0;
+//}
+//2023-03-16 복습
+/*
+* 1.아이디어
+* 입력받은 값을 정렬하고 중앙값을 찾는다.
+* 중앙값이 답인 이유는 모든 위치의 합을 더했을 때 가장 작기 때문이다.
+* 또한 여러값이 나올경우, 즉 짝수일경우, 중앙값후보가 2개가 되는대 이때 가장 작은 값을 하라고 했으므로
+* 홀수일 땐 N/2, 짝수일 땐 N/2-1 하면 된다.
+* 2.시간복잡도
+* 정렬을 하므로 O(NlogN), N<=200000 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -58,9 +92,7 @@ int main(void) {
 
 	sort(v.begin(), v.end());
 
-	int mid = v[(N - 1) / 2];
-
-	cout << mid;
+	cout << v[(N % 2 == 0 ? N / 2 - 1 : N / 2)];
 
 	return 0;
 }
