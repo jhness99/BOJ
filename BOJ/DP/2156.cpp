@@ -14,6 +14,46 @@
 * 3.변수형
 * int : 7500*1000 이므로 int가능
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//int dp[10001];
+//int arr[10001];
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	for (int i = 1; i <= N; i++)
+//		cin >> arr[i];
+//
+//	dp[1] = arr[1];
+//	dp[2] = dp[1] + arr[2];
+//
+//	int Max = -1;
+//	for (int i = 3; i <= N; i++) {
+//		dp[i] = max(dp[i - 1], max(dp[i - 2] + arr[i], dp[i - 3] + arr[i - 1] + arr[i]));
+//		
+//	}
+//	
+//	cout << dp[N];
+//	
+//	return 0;
+//}
+//2023-03-16 복습
+/*
+* 1.아이디어
+* dp는 해당 잔까지 최대로 마실 수 있는 포도주의 양이다.
+*
+* 3가지 경우를 고려해야한다. 3개를 연속으로 먹으면 안되므로
+* dp[i-3] + arr[i-1]+arr[i], dp[i-2] + arr[i], 그리고 마지막으로 dp[i-1]
+* 원래 계단의 경우에는 dp[i-1]를 고려하지 않았지만, 탐색하고 있는 위치의 잔을 안 먹는 경우또한 있으므로 체크해줘야한다.
+* 2.시간복잡도
+* O(N), N<=10000, 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 
 using namespace std;
@@ -26,19 +66,18 @@ int main(void) {
 	int N;
 	cin >> N;
 
-	for (int i = 1; i <= N; i++)
+	for (int i = 1; i <= N; i++) {
 		cin >> arr[i];
+	}
 
 	dp[1] = arr[1];
 	dp[2] = dp[1] + arr[2];
 
-	int Max = -1;
 	for (int i = 3; i <= N; i++) {
-		dp[i] = max(dp[i - 1], max(dp[i - 2] + arr[i], dp[i - 3] + arr[i - 1] + arr[i]));
-		
+		dp[i] = max(dp[i - 3] + arr[i - 1] + arr[i], max(dp[i - 2] + arr[i], dp[i - 1]));
 	}
-	
+
 	cout << dp[N];
-	
+
 	return 0;
 }
