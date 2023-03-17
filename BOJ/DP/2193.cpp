@@ -10,6 +10,38 @@
 * 3.변수형
 * long long:
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//long long dp[91];
+//
+//int main(void) {
+//
+//	dp[1] = 1;
+//	dp[2] = 1;
+//
+//	int N;
+//	cin >> N;
+//
+//	for(int i = 3; i <= N; i++)
+//		dp[i] = dp[i - 1] + dp[i - 2];
+//
+//	cout << dp[N];
+//
+//	return 0;
+//}
+//2023-03-17 복습
+/*
+* 1.아이디어
+* 우선 앞에 0이 오면 안되고 1을 붙이려고 해도 이전 수가 무조건 1로 시작하므로 11이 되므로 불가능
+* 따라서 뒤에다가만 붙일수있다.
+* 이때 1과 0을 붙일 수 있는데 맨 뒤가 1일 수도 있다.
+* 확정적으로 붙일 수 있는건 0밖에 없다.
+* 하지만 이전(i-1)이 아니라 이전의 이전(i-2)의 경우 01을 붙여 뒤에 1을 확정적으로 붙일 수있다
+* 이때 (i-2) 에서 10 00은 고려하지 않냐면 00의 경우 (i-1)의 경우와 중복되고 10의 경우 i-2또한 1로 끝날 수 있으므로 체크하지 않는다.
+* 따라서 점화식은 dp[i] = dp[i-1] + dp[i-2]이다.
+*/
 #include <iostream>
 
 using namespace std;
@@ -24,7 +56,7 @@ int main(void) {
 	int N;
 	cin >> N;
 
-	for(int i = 3; i <= N; i++)
+	for (int i = 3; i <= N; i++)
 		dp[i] = dp[i - 1] + dp[i - 2];
 
 	cout << dp[N];
