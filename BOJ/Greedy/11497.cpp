@@ -51,6 +51,45 @@
 * 3.변수형
 *
 */
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int T;
+//	cin >> T;
+//
+//	while (T--) {
+//		int N, Max = -1;
+//		cin >> N;
+//
+//		vector<int> v(N);
+//		for (auto& i : v)
+//			cin >> i;
+//
+//		sort(v.begin(), v.end());
+//
+//		for (int i = 0; i < N - 2; i++)
+//			Max = max(Max, v[i + 2] - v[i]);
+//
+//		cout << Max;
+//	}
+//
+//	return 0;
+//}
+//2023-03-17 복습
+/*
+*1.아이디어
+* 입력받은 수가 있을 때 가장 큰 수를 가운데 두고 양 옆에 그 다음 큰수로 둘러 싸는 형태의 수열을 하면
+* 사이사이의 간격이 최소가 되서 그중 가장 큰 값을 구하면 된다.
+*
+*우선 정렬을 하고 i N - 2까지 반복하며 i + 1과 i + 2사이의 값을 구해서 더 큰 값이 나올때마다 갱신하는 것이다.
+* 2.시간복잡도
+* sort를 사용하므로 O(NlogN), N <= 10000 따라서 가능
+* /
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -59,24 +98,33 @@ using namespace std;
 
 int main(void) {
 
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	int T;
 	cin >> T;
-
 	while (T--) {
-		int N, Max = -1;
+		int N;
 		cin >> N;
 
-		vector<int> v(N);
-		for (auto& i : v)
+		vector<int> input(N);
+		for (auto& i : input)
 			cin >> i;
 
-		sort(v.begin(), v.end());
+		sort(input.begin(), input.end());
 
-		for (int i = 0; i < N - 2; i++)
-			Max = max(Max, v[i + 2] - v[i]);
+		int answer = input[N - 1] - input[N - 2];
+		for (int i = 0; i < N - 2; i++) {
+			answer = max(answer, input[i + 2] - input[i]);
 
-		cout << Max;
+			//이건 안해도 된다. 그 이유는 오름차순 정렬되있기 때문에 
+			//무조건 i+1위치의 것보다 크다. 가장 작은 최대값을 구해야 하므로 i+1은 고려하지 않아도 되는것이다. 해도 답은 맞았다..
+			answer = max(answer, input[i + 1] - input[i]);
+
+		}
+		cout << answer << "\n";
 	}
+
 
 	return 0;
 }
