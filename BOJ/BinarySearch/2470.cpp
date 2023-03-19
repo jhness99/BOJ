@@ -52,3 +52,63 @@ int main(void) {
 
 	return 0;
 }
+//2023-03-19 복습
+/*
+* 1.아이디어
+* 용액들을 오름차순 정렬한다.
+* 정렬한 용액을 왼쪽 오른쪽, 즉 가장 산성인것과 가장 염기성인 것을 left right로 정한다.
+* 그상태에서 투포인터로 연산한다.
+* 만약 left와 right위치의용액의 합이 +라면, 0에 가까워야 하므로 right--,
+* 만약 합이 -라면 left++
+* 해당 연산을 진행하면서 가장 작은 조합의 값을 answer에 저장한다.
+* 두 left >= right 일 경우, 종료한다.
+*
+* 2.시간복잡도
+* O(N) N<=100000 따라서 가능
+* 3.변수형
+*
+*/
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+int main(void) {
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int N, answer = 2000000001;
+	cin >> N;
+
+	vector<int> input(N);
+	for (auto& i : input)
+		cin >> i;
+
+	sort(input.begin(), input.end());
+
+	int left = 0;
+	int right = N - 1;
+	int leftNum = input[left];
+	int rightNum = input[right];
+
+	while (left < right) {
+		int num = input[right] + input[left];
+		if (answer > abs(num)) {
+			answer = abs(num);
+			leftNum = input[left];
+			rightNum = input[right];
+		}
+
+		if (num > 0)
+			right--;
+		else
+			left++;
+
+	}
+
+	cout << leftNum << " " << rightNum;
+
+	return 0;
+}
