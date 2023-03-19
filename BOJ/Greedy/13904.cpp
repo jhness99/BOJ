@@ -47,6 +47,55 @@
 //	return 0;
 //}
 //2023-03-01 복습
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//bool compareTo(const pair<int, int>& p1, const pair<int, int>& p2) {
+//	return p1.second > p2.second;
+//}
+//
+//int main(void) {
+//
+//	int N, answer = 0;
+//	cin >> N;
+//	vector<pair<int, int>> v(N);
+//	vector<bool> schedule(N, false);
+//
+//	for (auto& p : v)
+//		cin >> p.first >> p.second;
+//
+//	sort(v.begin(), v.end(), compareTo);
+//
+//	for (int i = 0; i < N; i++) {
+//		for (int j = v[i].first; j > 0; j--) {
+//			if (!schedule[j]) {
+//				schedule[j] = true;
+//				answer += v[i].second;
+//				break;
+//			}
+//		}
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-19 복습
+/*
+* 1.아이디어
+* 푸는법을 까먹어서 예전에 풀었던 아이디어를 보자 바로 생각났다.
+* 마치 항공문제에서 푼 유니온파운드 같이 푼 문제였다.
+* 성적순으로 정렬하고 우선순위큐를 만들어 top으로 하나씩 뺀다.
+* 뺀 성적의 기한을 보고 check배열에 기한보다 작은 곳에 과제를 안 한 날짜를 찾아서 그날 풀었다고 체크해준다.
+* 만약 4일경우 4에 체크가 되있다면, 미리 과제를 해도 되므로 이전의 기한에 빈 날이 있는지 체크하고 넣는다.
+* 2.시간복잡도
+* O(N) N<=1000 따라서 가능
+* 3. 변수형
+*
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -61,8 +110,9 @@ int main(void) {
 
 	int N, answer = 0;
 	cin >> N;
+
 	vector<pair<int, int>> v(N);
-	vector<bool> schedule(N, false);
+	vector<bool> Check(N, false);
 
 	for (auto& p : v)
 		cin >> p.first >> p.second;
@@ -71,8 +121,8 @@ int main(void) {
 
 	for (int i = 0; i < N; i++) {
 		for (int j = v[i].first; j > 0; j--) {
-			if (!schedule[j]) {
-				schedule[j] = true;
+			if (!Check[j]) {
+				Check[j] = true;
 				answer += v[i].second;
 				break;
 			}

@@ -83,6 +83,52 @@
 * 3.변수형
 *
 */
+//#include <iostream>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	long long N;;
+//	int d[6];
+//	long long answer = 0;
+//	cin >> N;
+//
+//	int Max = -1;
+//	for (int i = 0; i < 6; i++) {
+//		cin >> d[i];
+//		answer += d[i];
+//		Max = max(Max, d[i]);
+//	}
+//
+//	if (N == 1) {
+//		cout << answer - Max;
+//		return 0;
+//	}
+//
+//
+//	d[0] = min(d[0], d[5]);
+//	d[1] = min(d[1], d[4]);
+//	d[2] = min(d[2], d[3]);
+//
+//	sort(d, d + 3);
+//
+//	int sum1 = d[0];
+//	int sum2 = sum1 + d[1];
+//	int sum3 = sum2 + d[2];
+//
+//	answer = 0;
+//
+//	answer += sum3 * 4;
+//	answer += sum2 * ((N - 2) * 4 + (N - 1) * 4);
+//	answer += sum1 * (((N - 2) * (N - 1) * 4) + (N - 2) * (N - 2));
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-19 복습
 #include <iostream>
 #include <algorithm>
 
@@ -90,23 +136,22 @@ using namespace std;
 
 int main(void) {
 
-	long long N;;
-	int d[6];
 	long long answer = 0;
+	long long N;
 	cin >> N;
 
+	int d[6];
 	int Max = -1;
 	for (int i = 0; i < 6; i++) {
 		cin >> d[i];
-		answer += d[i];
 		Max = max(Max, d[i]);
+		answer += d[i];
 	}
 
 	if (N == 1) {
 		cout << answer - Max;
 		return 0;
 	}
-
 
 	d[0] = min(d[0], d[5]);
 	d[1] = min(d[1], d[4]);
