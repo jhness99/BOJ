@@ -20,38 +20,89 @@
 * 3.변수형
 * 
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//	
+//	int N;
+//	cin >> N;
+//
+//	vector<int> v(N);
+//
+//	for (auto& i : v)
+//		cin >> i;
+//
+//	int left = 0;
+//	int right = N - 1;
+//
+//	int leftNum = v[left];
+//	int rightNum = v[right];
+//
+//	int value = leftNum + rightNum;
+//
+//	while (left < right) {
+//		int newValue = v[left] + v[right];
+//		if (abs(value) >= abs(newValue)) {
+//			value = newValue;
+//			leftNum = v[left];
+//			rightNum = v[right];
+//		}
+//		
+//		if (newValue > 0)	//최악의 경우 value는 바뀌지 않을 수 있으므로 매번 right left를 사용해서 값을 바꿔주는 newValue를 기준으로 이동
+//			right--;
+//		else
+//			left++;
+//	}
+//
+//	cout << leftNum << " " << rightNum;
+//
+//	return 0;
+//}
+//2023-03-20 복습
+/*
+* 1.아이디어
+* 두 용액-2470과 같은 문제이다. 차이는 이 문제는 이미 오름차순으로 정렬되어있다는 점 정도이다.
+* 그 외에는 두 용액과 같은 방법인 투 포인터로 풀면된다.
+* left = 0, right = N-1로 설정한다.
+* input[left] + input[right]의 절대값을 기준으로 해당 값이 최소가 된다면, leftNum rightNum을 갱신해주고
+* 0과 비교해서 크다면, right-- 0과 비교해서 작다면, left ++ 를 해준다.
+* left와 right가 만나게 된다면 종료한다.
+*
+* 2.시간복잡도
+* N개를 모두 확인하므로 O(N), N<=100000, 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
 int main(void) {
-	
+
 	int N;
 	cin >> N;
 
-	vector<int> v(N);
-
-	for (auto& i : v)
+	vector<int> input(N);
+	for (auto& i : input)
 		cin >> i;
 
 	int left = 0;
 	int right = N - 1;
-
-	int leftNum = v[left];
-	int rightNum = v[right];
-
-	int value = leftNum + rightNum;
+	int leftNum = input[left];
+	int rightNum = input[right];
+	int value = abs(rightNum + leftNum);
 
 	while (left < right) {
-		int newValue = v[left] + v[right];
-		if (abs(value) >= abs(newValue)) {
-			value = newValue;
-			leftNum = v[left];
-			rightNum = v[right];
+		int newValue = input[left] + input[right];
+		if (value > abs(newValue)) {
+			value = abs(newValue);
+			leftNum = input[left];
+			rightNum = input[right];
 		}
-		
-		if (newValue > 0)	//최악의 경우 value는 바뀌지 않을 수 있으므로 매번 right left를 사용해서 값을 바꿔주는 newValue를 기준으로 이동
+		if (0 < newValue)
 			right--;
 		else
 			left++;
