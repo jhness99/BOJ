@@ -12,12 +12,64 @@
 * 3.변수형
 * int : 10000*1000 이므로 int
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//int dp[1001];
+//int v[1001];
+//
+//int main(void) {
+//
+//	int N;
+//	cin >> N;
+//
+//	for (int i = 1; i <= N; i++)
+//		cin >> v[i];
+//
+//	dp[1] = v[1];
+//
+//	for (int i = 2; i <= N; i++) {
+//		dp[i] = v[i];
+//		for (int j = 1; j <= i / 2; j++) 
+//			dp[i] = max(dp[i], dp[i - j] + dp[j]);
+//	}
+//
+//	cout << dp[N];
+//
+//	return 0;
+//}
+//2023-03-20 복습
+/*
+* 1.아이디어
+* dp[i] : i개의 카드를 살 때 가장 큰 비용
+* dp[1]은 1개밖에 못 사므로 input[1]로 갱신한다.
+* dp[2]부터는 일단 자기자신을 넣고(2개 든 팩 샀을때의 값어치),1개를 2개샀을때와 비교한다.
+* dp[3]은 3개, 1개 2개 샀을 때를 비교해야 되는대 이때 각 가치는 dp[1]  dp[2]이다.
+* dp[4]는 4개, 1개 3개, 2개 2개를 비교하면된다. 이때 1개4개인건 왜 고려안하냐고 생각할 수 있지만 고려할 필요가 없다.
+* 왜냐하면 1개짜리 팩이 4개라는 의미는 1개짜리가 카드1개기준으로 가장 비쌀때 가능하다.
+* 1개짜리가 낱개로 가장 가치가 비싸다면 이미 2개 3개 또한 1개짜리 2개 3개로 정해지기 때문에 1개짜리 4개있는 경우는
+* 이미 고려되있기 때문에 고려하지 않는다.
+* 그 다음 dp[5]는 1 4, 2 3, 5 이렇게 비교하면 된다.
+* 이를 점화식으로 나타내면.
+* for (int i = 2; i <= N; i++) {
+		dp[i] = input[i];
+		for (int j = 1; j <= i/2; j++) {
+			dp[i] = max(dp[i], dp[j] + dp[i - j]);
+		}
+	}
+* 이렇게 된다.
+* 2.시간복잡도
+* O(N^2) N<= 1000 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 
 using namespace std;
 
+int input[1001];
 int dp[1001];
-int v[1001];
 
 int main(void) {
 
@@ -25,17 +77,15 @@ int main(void) {
 	cin >> N;
 
 	for (int i = 1; i <= N; i++)
-		cin >> v[i];
+		cin >> input[i];
 
-	dp[1] = v[1];
-
+	dp[1] = input[1];
 	for (int i = 2; i <= N; i++) {
-		dp[i] = v[i];
-		for (int j = 1; j <= i / 2; j++) 
-			dp[i] = max(dp[i], dp[i - j] + dp[j]);
+		dp[i] = input[i];
+		for (int j = 1; j <= i / 2; j++) {
+			dp[i] = max(dp[i], dp[j] + dp[i - j]);
+		}
 	}
-
 	cout << dp[N];
-
 	return 0;
 }
