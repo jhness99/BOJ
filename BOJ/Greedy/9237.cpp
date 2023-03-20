@@ -47,6 +47,42 @@
 //	return 0;
 //}
 //2023-03-01 복습
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, answer = 0;
+//	cin >> N;
+//	vector<int> v(N);
+//
+//	for (auto& i : v)
+//		cin >> i;
+//
+//	sort(v.begin(), v.end(), greater<>());
+//
+//	for (int i = 0; i < N; i++) {
+//		answer = max(answer, i + v[i] + 1);
+//	}
+//
+//	cout << answer + 1;
+//
+//	return 0;
+//}
+//2023-03-20 아이디어
+/*
+* 1.아이디어
+* 내림차순으로 정렬한다. 왜냐하면 더 오래걸리는 나무를 먼저 심어야 하기 때문이다.
+* 정렬한 후 모든 값은 index + arr[index] + 1을 비교해서 가장 큰 값을 구한다.
+* 다 자란 후 다음날 이장님을 부르므로 +1
+* 2.시간복잡도
+* 정렬을 사용하므로 O(NlogN), N<=100000 따라서 가능
+* 3.변수형
+*
+*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -55,18 +91,19 @@ using namespace std;
 
 int main(void) {
 
-	int N, answer = 0;
+	int N;
 	cin >> N;
-	vector<int> v(N);
 
-	for (auto& i : v)
+	vector<int> tree(N);
+	for (auto& i : tree)
 		cin >> i;
 
-	sort(v.begin(), v.end(), greater<>());
+	sort(tree.begin(), tree.end(), greater<>());
 
-	for (int i = 0; i < N; i++) {
-		answer = max(answer, i + v[i] + 1);
-	}
+	int answer = 0;
+
+	for (int i = 0; i < N; i++)
+		answer = max(answer, tree[i] + i + 1);
 
 	cout << answer + 1;
 
