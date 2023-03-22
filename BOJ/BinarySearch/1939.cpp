@@ -15,9 +15,102 @@
 * 2.시간복잡도
 * 3.변수형
 */
+//#include <iostream>
+//#include <vector>
+//#include <queue>
+//#include <cstring>
+//
+//using namespace std;
+//
+//vector<pair<int, int>> graph[100001];
+//bool visited[100001];
+//
+//int N, M, start, finish;
+//
+//bool BFS(int cost) {
+//	queue<int> q;
+//	q.push(start);
+//	visited[start] = true;
+//
+//	while (!q.empty()) {
+//		int curFactory = q.front();
+//		q.pop();
+//
+//		if (curFactory == finish) {
+//			return true;
+//		}
+//
+//		for (int i = 0; i < graph[curFactory].size(); i++) {
+//			int next = graph[curFactory][i].first;
+//			int nextCost = graph[curFactory][i].second;
+//
+//			if (!visited[next] && cost <= nextCost) {
+//				visited[next] = true;
+//				q.push(next);
+//			}
+//		}
+//	}
+//
+//	return false;
+//}
+//
+//int main(void) {
+//
+//	cin >> N >> M;
+//
+//	int answer = 0;
+//	int maxCost = -1;
+//
+//	for (int i = 0; i < M; i++) {
+//		int num1, num2, cost;
+//		cin >> num1 >> num2 >> cost;
+//		graph[num1].push_back({ num2, cost });
+//		graph[num2].push_back({ num1, cost });
+//		maxCost = max(cost, maxCost);
+//	}
+//
+//	cin >> start >> finish;
+//
+//	int left = 1;
+//	int right = maxCost;
+//
+//	while (left <= right) {
+//
+//		memset(visited, false, N+1);
+//
+//		int mid = (left + right) / 2;
+//		if (BFS(mid)) {
+//			left = mid + 1; 
+//			answer = mid;
+//		}
+//		else {
+//			right = mid - 1;
+//		}
+//	}
+//
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-03-22 복습
+/*
+* 1.아이디어
+* 그래프를 vector<pair<int, int>>로 저장하는데 first는 다음섬의 번호이고 second는 해당 다리의 중량제한이다.
+*
+* 이분탐색을 통해 모든 다리를 확인한다. 다리의 최대값과 최솟값을 right left로 지정하고 이분탐색을 한다.
+* mid로 무게제한을 두고 그래프를 탐색했을 때 공장에 도착할 수 있다면, left = mid - 1 , answer = mid;
+* 불가능 하다면 right = mid + 1;한다.
+*
+* 위 그래프탐색은 DFS로 진행한다. cost를 받아와 해당 cost보다 중량제한이 작다면, 이동할 수 없도록 제한한다.
+*
+* 2.시간복잡도
+* 이분탐색에 O(log10^9), BFS에서 최대 M번 호출되므로 O(Mlog10^9) M<=100000 따라서 가능
+* 3.변수형
+*/
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <cmath>
 #include <cstring>
 
 using namespace std;
@@ -25,67 +118,61 @@ using namespace std;
 vector<pair<int, int>> graph[100001];
 bool visited[100001];
 
-int N, M, start, finish;
+int start;
+int target;
 
 bool BFS(int cost) {
 	queue<int> q;
-	q.push(start);
 	visited[start] = true;
+	q.push(start);
 
 	while (!q.empty()) {
-		int curFactory = q.front();
+		int index = q.front();
 		q.pop();
 
-		if (curFactory == finish) {
+		if (index == target)
 			return true;
-		}
 
-		for (int i = 0; i < graph[curFactory].size(); i++) {
-			int next = graph[curFactory][i].first;
-			int nextCost = graph[curFactory][i].second;
+		for (int i = 0; i < graph[index].size(); i++) {
+			int nextNode = graph[index][i].first;
+			int nextCost = graph[index][i].second;
 
-			if (!visited[next] && cost <= nextCost) {
-				visited[next] = true;
-				q.push(next);
+			if (nextCost >= cost && !visited[nextNode]) {
+				visited[nextNode] = true;
+				q.push(nextNode);
 			}
 		}
 	}
-
 	return false;
 }
 
 int main(void) {
 
+	int N, M, answer = 0;
 	cin >> N >> M;
 
-	int answer = 0;
-	int maxCost = -1;
-
+	int Max = -1;
 	for (int i = 0; i < M; i++) {
-		int num1, num2, cost;
-		cin >> num1 >> num2 >> cost;
-		graph[num1].push_back({ num2, cost });
-		graph[num2].push_back({ num1, cost });
-		maxCost = max(cost, maxCost);
+		int A, B, C;
+		cin >> A >> B >> C;
+
+		graph[A].push_back({ B, C });
+		graph[B].push_back({ A, C });
+		Max = max(Max, C);
 	}
-
-	cin >> start >> finish;
-
+	cin >> start >> target;
 	int left = 1;
-	int right = maxCost;
+	int right = Max;
 
 	while (left <= right) {
-
-		memset(visited, false, N+1);
-
 		int mid = (left + right) / 2;
+		memset(visited, false, N + 1);
 		if (BFS(mid)) {
-			left = mid + 1; 
+			left = mid + 1;
 			answer = mid;
 		}
-		else {
+		else
 			right = mid - 1;
-		}
 	}
 
 	cout << answer;
