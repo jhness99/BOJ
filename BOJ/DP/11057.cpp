@@ -13,34 +13,71 @@
 * 3.변수형
 * int : 오르막 개수에 10007를 나머지 연산 하므로 int
 */
+//#include <iostream>
+//
+//using namespace std;
+//
+//int dp[10001][10];
+//
+//int main(void) {
+//
+//	int N, answer = 0;
+//	cin >> N;
+//
+//	for (int i = 0; i < 10; i++) {
+//		dp[1][i] = 1;
+//	}
+//
+//	for (int i = 2; i <= 1000; i++) {
+//		for (int j = 0; j < 10; j++) {
+//			if (j == 0) {
+//				dp[i][0] = 1;
+//				continue;
+//			}
+//			dp[i][j] = (dp[i][j - 1] + dp[i - 1][j]) % 10007;
+//		}
+//	}
+//
+//	for (int i = 0; i < 10; i++)
+//		answer = (answer + dp[N][i]);
+//
+//	cout << answer % 10007;
+//	return 0;
+//}
+//2023-03-24 복습
+/*
+* 1.아이디어
+* dp[i][j] i 개의 숫자를 골라 0~j까지의 수로 조합을 만들었을 때 나온 조합의 개수
+*
+* i-1개에서 j숫자를 추가한 경우가 i개에서 j숫자까지의 경우의 수라고 할 수 있다.
+* 그렇게 되면 dp[i-1][0]~dp[i-1][j]까지의 합이 dp[i][j]인데 이때 dp[i-1][0]~dp[i-1][j-1]는 dp[i][j-1]이므로
+* dp[i][j] = dp[i-1][j] + dp[i][j-1]이다.
+*/
 #include <iostream>
 
 using namespace std;
 
-int dp[10001][10];
+int dp[1001][10];
 
 int main(void) {
 
 	int N, answer = 0;
 	cin >> N;
 
-	for (int i = 0; i < 10; i++) {
-		dp[1][i] = 1;
-	}
+	for (int i = 1; i <= N; i++)
+		dp[i][0] = 1;
 
-	for (int i = 2; i <= 1000; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (j == 0) {
-				dp[i][0] = 1;
-				continue;
-			}
-			dp[i][j] = (dp[i][j - 1] + dp[i - 1][j]) % 10007;
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j < 10; j++) {
+			dp[i][j] = (dp[i - 1][j] + dp[i][j - 1]) % 10007;
 		}
 	}
 
-	for (int i = 0; i < 10; i++)
-		answer = (answer + dp[N][i]);
+	for (int i = 0; i < 10; i++) {
+		answer = (answer + dp[N][i]) % 10007;
+	}
 
-	cout << answer % 10007;
+	cout << answer;
+
 	return 0;
 }
