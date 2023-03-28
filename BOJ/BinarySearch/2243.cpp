@@ -33,13 +33,100 @@
 * 3.변수형
 * 
 */
+//#include <iostream>
+//#define MAX 1000001
+//
+//using namespace std;
+//
+//int arr[MAX];
+//int tree[MAX*4];
+//
+//int query(int node, int start, int end, int k) {
+//	if (start == end)
+//		return end;
+//
+//	int mid = (start + end) / 2;
+//	if (tree[node * 2] >= k)
+//		return query(node * 2, start, mid, k);
+//	else
+//		return query(node * 2 + 1, mid + 1, end, k - tree[node * 2]);
+//}
+//
+//void update(int node, int start, int end, int idx, int value) {
+//	if (idx < start || end < idx) return;
+//	if (start == end) {
+//		tree[node] = value;
+//		return;
+//	}
+//
+//	int mid = (start + end) / 2;
+//	update(node * 2, start, mid, idx, value);
+//	update(node * 2 + 1, mid + 1, end, idx, value);
+//
+//	tree[node] = tree[node * 2] + tree[node * 2 + 1];
+//}
+//
+//int main(void) {
+//	ios_base::sync_with_stdio(0);
+//	cin.tie(0);
+//	cout.tie(0);
+//
+//	int N;
+//	cin >> N;
+//
+//	for (int i = 0; i < N; i++) {
+//		int A, B, C;
+//		cin >> A;
+//		if (A == 1) {
+//			cin >> B;
+//			int k = query(1, 1, MAX, B);
+//			cout << k << "\n";
+//			arr[k]--;
+//			update(1, 1, MAX, k, arr[k]);
+//		}
+//		else {
+//			cin >> B >> C;
+//			arr[B] += C;
+//			update(1, 1, MAX, B, arr[B]);
+//		}
+//	}
+//
+//	return 0;
+//}
+//2023-03-28 복습
+/*
+* 1.아이디어
+* 여전히 기억 못하고 있었다.
+* 세그먼트 트리에 대해서 다시 정의하면
+*
+* 쉽게 생각하면 누적합을 구하는 트리라고 할 수 있다.
+* 무슨 의미냐면 root노드를 기준으로 절반으로 나눠서 왼쪽 오른쪽 노드로 나눈다. 해당 노드에는 각각 절반의 합이 있는것이다.
+* 또한 해당 노드의 범위는 start ~ mid, mid+1~end 까지의 합을 가지고 있는 것이다. 각 노드또한 절반으로 나눠준다.
+* 이를 쭉 반복하면 start와 end가 같아지는 순간이 온다. 예를들어 시작과 끝이 1 1 이라면, 1부터 1까지 더한값, 즉 1의 위치의 값을 의미한다.
+* 해당 값에다가 자신의 값을 갱신시키고 백트래킹을 이용해 위로 올라가면서 노드의 합을 구해 갱신해주는것이다.
+* 그렇게 되면 위로 올라가면서 자신의 자식들의 누적합을 구할 수 있게 된다.
+* 그럼 결국 root노드는 start~end까지의 값의 누적합을 가지게 된다.
+*
+* 이를 이 문제에서 어떻게 쓸 수 있냐하면 간단하게 생각해볼수 있다.
+* 우선 start와 end가 같아지는 노드에는 맛에따라 해당 맛의 사탕이 몇개있는지를 저장한다.
+* 그리고 점점 올라가면서 자식노드들의 누적합을 저장해주고 결국 root노드에 모든 맛의 사탕수의 합을 넣어준다.
+*
+* 이렇게 트리를 갱신해주면 몇번째에 있는 노드가 무슨맛인지를 알 수있다.
+* 그 로직은 다음과 같다.
+* 한 노드를 기준으로 원하는 순서가 해당 노드의 왼쪽 노드의 누적합보다 작을경우 왼쪽을 탐색하고 클경우 오른쪽을 탐색한다.
+* 이때 오른쪽을 탐색할 때는 찾으려는 순서에서 왼쪽 노드만큼 빼줘야한다. 그 이유는 오른쪽 노드의 값은 전체 - 왼쪽노드 의 값이기 때문에
+* 왼쪽노드만큼 빼준값이 순수하게 오른쪽에서의 순서이기 때문이다.
+*
+* 이 연산을 계속 하다가 start == end가 됬다면, start or end가 해당 맛임을 알 수 있는것이다.
+* 2.시간복잡도
+* 3.변수형
+*/
 #include <iostream>
-#define MAX 1000001
 
 using namespace std;
 
-int arr[MAX];
-int tree[MAX*4];
+int arr[1000001];
+int tree[4000004];
 
 int query(int node, int start, int end, int k) {
 	if (start == end)
@@ -52,42 +139,40 @@ int query(int node, int start, int end, int k) {
 		return query(node * 2 + 1, mid + 1, end, k - tree[node * 2]);
 }
 
-void update(int node, int start, int end, int idx, int value) {
-	if (idx < start || end < idx) return;
+void update(int node, int start, int end, int index, int value) {
+	if (index < start || end < index) return;
 	if (start == end) {
 		tree[node] = value;
 		return;
 	}
-
 	int mid = (start + end) / 2;
-	update(node * 2, start, mid, idx, value);
-	update(node * 2 + 1, mid + 1, end, idx, value);
+	update(node * 2, start, mid, index, value);
+	update(node * 2 + 1, mid + 1, end, index, value);
 
 	tree[node] = tree[node * 2] + tree[node * 2 + 1];
 }
 
 int main(void) {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
+
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 
 	int N;
 	cin >> N;
-
-	for (int i = 0; i < N; i++) {
+	while (N--) {
 		int A, B, C;
 		cin >> A;
 		if (A == 1) {
 			cin >> B;
-			int k = query(1, 1, MAX, B);
+			int k = query(1, 1, 1000001, B);
 			cout << k << "\n";
 			arr[k]--;
-			update(1, 1, MAX, k, arr[k]);
+			update(1, 1, 1000001, k, arr[k]);
 		}
-		else {
+		else if (A == 2) {
 			cin >> B >> C;
 			arr[B] += C;
-			update(1, 1, MAX, B, arr[B]);
+			update(1, 1, 1000001, B, arr[B]);
 		}
 	}
 
