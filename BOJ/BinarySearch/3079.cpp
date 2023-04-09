@@ -30,15 +30,76 @@
 * 3.변수형
 * long long : 수가 너무 커지므로 answer, mid, start, end 모두 long long 사용
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//	
+//	ios_base::sync_with_stdio(false);
+//	cin.tie(NULL);
+//
+//	long long answer = 0;
+//	int N, M;
+//	cin >> N >> M;
+//
+//	long long Max = -1;
+//	vector<int> input(N);
+//	for (auto& i : input) {
+//		cin >> i;
+//		Max = max(Max, (long long)i);
+//	}
+//		
+//	long long start = 1;
+//	long long end = Max * M;
+//	long long mid;
+//
+//	while (start <= end) {
+//		mid = (start + end) / 2;
+//		long long total = 0;
+//		for (int i = 0; i < N; i++) {
+//			total += mid / input[i];
+//			if (total > M)	
+//				break;
+//		}
+//		if (total < M) {
+//			start = mid + 1;	
+//		}
+//		else {
+//			end = mid - 1;
+//			answer = mid;
+//		}
+//			
+//	}
+//	
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-04-09 복습
+/*
+* 1.아이디어
+* N개의 심사대를 사용하는 M명의 사람이 차례대로 사용하게 해야한다.
+* M이 최대 10억이므로 일일히 확인하면 시간이 너무 오래걸린다. 따라서 시간이 주어졌을 때 해당 시간안에 몇명의 사람을 받을 수 있는지 확인하는편이
+* 더 빠르게 구할 수 있게 된다. 따라서 이분탐색을 사용해야한다.
+*
+* left를 1, right를 가장 큰 값*M을 해서 이분탐색을 해야한다. 따라서 left, right, mid 모두 long long으로 선언한다.
+* 그리고 이분탐색을 해서 mid에 각 심사대의 시간을 나눈 몫을 total에 더해준다. 이 수는 해당 심사대가 mid시간동안 받을 수 있는 사람의 수 이다.
+* 그래서 구한 total이 M과 비교했을 때 작다면, start = mid + 1, 을 하고
+* total이 M과 같거나 크다면, end = end + 1, answer = mid;
+*
+* 2.시간복잡도
+*
+* 3.변수형
+* long long : 수가 너무 커지므로 answer, mid, start, end 모두 long long 사용
+*/
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
 int main(void) {
-	
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
 
 	long long answer = 0;
 	int N, M;
@@ -48,31 +109,28 @@ int main(void) {
 	vector<int> input(N);
 	for (auto& i : input) {
 		cin >> i;
-		Max = max(Max, (long long)i);
+		Max = max((int)Max, i);
 	}
-		
-	long long start = 1;
-	long long end = Max * M;
-	long long mid;
 
-	while (start <= end) {
-		mid = (start + end) / 2;
+	long long left = 1;
+	long long right = Max * M;
+
+	while (left <= right) {
+		long long mid = (left + right) / 2;
 		long long total = 0;
-		for (int i = 0; i < N; i++) {
-			total += mid / input[i];
-			if (total > M)	
+		for (auto& i : input) {
+			total += mid / i;
+			if (total > M)
 				break;
 		}
-		if (total < M) {
-			start = mid + 1;	
-		}
+		if (total < M)
+			left = mid + 1;
 		else {
-			end = mid - 1;
+			right = mid - 1;
 			answer = mid;
 		}
-			
 	}
-	
+
 	cout << answer;
 
 	return 0;
