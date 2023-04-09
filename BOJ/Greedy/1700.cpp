@@ -172,6 +172,78 @@
 *
 * 3.변수형
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	int N, M, answer = 0;
+//	cin >> N >> M;
+//
+//	vector<int> multiTap(N, 0);
+//	vector<int> schedule(M);
+//
+//	for (auto& i : schedule)
+//		cin >> i;
+//
+//	for (int i = 0; i < M; i++) {
+//
+//		bool flag = false;
+//
+//		for (int j = 0; j < N; j++) {
+//			if (multiTap[j] == schedule[i]) {
+//				flag = true;
+//				break;
+//			}
+//		}
+//		if (flag)
+//			continue;
+//
+//		for (int j = 0; j < N; j++) {
+//			if (multiTap[j] == 0) {
+//				flag = true;
+//				multiTap[j] = schedule[i];
+//				break;
+//			}
+//		}
+//		if (flag)
+//			continue;
+//
+//		int ChangeLoc = -1;
+//		int num = -1;
+//
+//		for (int j = 0; j < N; j++) {
+//			int temp = 0;
+//			for (int k = i + 1; k < M; k++) {
+//				if (multiTap[j] == schedule[k])
+//					break;
+//				temp++;
+//			}
+//			if (temp > num) {
+//				num = temp;
+//				ChangeLoc = j;
+//			}
+//		}
+//		multiTap[ChangeLoc] = schedule[i];
+//		answer++;
+//	}
+//	cout << answer;
+//
+//	return 0;
+//}
+//2023-04-09 복습
+/*
+* 1.아이디어
+* 이 문제는 3가지 경우를 고려해주면 된다.
+* 첫번째는 멀티탭이 비어있는지
+* 두번째는 멀티탭에 꽂으려고 하는 전기용품이 이미 꽂여있는지
+* 세번째는 멀티탭에 꽂을 공간이 없는경우
+*
+* 이 3가지 경우를 모두 고려해서 횟수를 고려해주면 된다.
+*
+*/
 #include <iostream>
 #include <vector>
 
@@ -179,17 +251,15 @@ using namespace std;
 
 int main(void) {
 
-	int N, M, answer = 0;
-	cin >> N >> M;
+	int N, K, answer = 0;
+	cin >> N >> K;
 
 	vector<int> multiTap(N, 0);
-	vector<int> schedule(M);
-
+	vector<int> schedule(K);
 	for (auto& i : schedule)
 		cin >> i;
 
-	for (int i = 0; i < M; i++) {
-
+	for (int i = 0; i < K; i++) {
 		bool flag = false;
 
 		for (int j = 0; j < N; j++) {
@@ -198,6 +268,7 @@ int main(void) {
 				break;
 			}
 		}
+
 		if (flag)
 			continue;
 
@@ -208,21 +279,22 @@ int main(void) {
 				break;
 			}
 		}
+
 		if (flag)
 			continue;
 
 		int ChangeLoc = -1;
-		int num = -1;
+		int Num = -1;
 
 		for (int j = 0; j < N; j++) {
 			int temp = 0;
-			for (int k = i + 1; k < M; k++) {
+			for (int k = i + 1; k < K; k++) {
 				if (multiTap[j] == schedule[k])
 					break;
 				temp++;
 			}
-			if (temp > num) {
-				num = temp;
+			if (temp > Num) {
+				Num = temp;
 				ChangeLoc = j;
 			}
 		}
