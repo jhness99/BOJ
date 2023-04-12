@@ -11,44 +11,102 @@
 * 3.변수형
 * 
 */
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//int main(void) {
+//
+//	ios_base::sync_with_stdio(false);
+//	cin.tie(NULL);
+//
+//	int N;
+//	while (cin>>N) {
+//		vector<int> LIS;
+//		vector<int> input(N);
+//		for (auto& i : input)
+//			cin >> i;
+//
+//		LIS.push_back(input[0]);
+//		for (int i = 1; i < N; i++) {
+//			if (LIS.back() < input[i])
+//				LIS.push_back(input[i]);
+//			else {
+//				int start = 0;
+//				int end = LIS.size() - 1;
+//
+//				while (start < end) {
+//					int mid = (start + end) / 2;
+//					if (LIS[mid] >= input[i])
+//						end = mid;
+//					else
+//						start = mid + 1;
+//				}
+//				LIS[end] = input[i];
+//			}
+//		}
+//
+//		cout << LIS.size() << "\n";
+//	}
+//
+//	return 0;
+//}
+//2023-04-12 복습
+/*
+* 1.아이디어
+* 이번 문제는 정렬하고 투포인터를 사용하면 되는 문제이다.
+*
+* sort로 정렬한 후 양쪽을 left rifht로 지정한다.
+* 두 수의 합이 x와 비교했을 때 작다면, 더 키워줘야 하므로 left++. 더 크다면 right--
+* 만약 같다면 현재 상태를 갱신할 것인지 확인하고 갱신해준다.
+* 만약 같은 상태가 안 나온다면 danger출력
+*
+* 2.시간복잡도
+* 3.변수형
+*
+*/
 #include <iostream>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
 
 int main(void) {
-
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	int N;
-	while (cin>>N) {
-		vector<int> LIS;
-		vector<int> input(N);
-		for (auto& i : input)
+	int X, N;
+	while (cin >> X) {
+		cin >> N;
+
+		X *= 10000000;
+		vector<int> Lego(N);
+		for (auto& i : Lego)
 			cin >> i;
 
-		LIS.push_back(input[0]);
-		for (int i = 1; i < N; i++) {
-			if (LIS.back() < input[i])
-				LIS.push_back(input[i]);
-			else {
-				int start = 0;
-				int end = LIS.size() - 1;
+		sort(Lego.begin(), Lego.end());
 
-				while (start < end) {
-					int mid = (start + end) / 2;
-					if (LIS[mid] >= input[i])
-						end = mid;
-					else
-						start = mid + 1;
-				}
-				LIS[end] = input[i];
+		int left = 0;
+		int right = Lego.size() - 1;
+		bool flag = false;
+
+		while (left < right) {
+			int sum = Lego[left] + Lego[right];
+			if (X > sum)
+				left++;
+			else if (X < sum)
+				right--;
+			else {
+				flag = true;
+				break;
 			}
 		}
-
-		cout << LIS.size() << "\n";
+		if (flag)
+			cout << "yes " << Lego[left] << " " << Lego[right];
+		else
+			cout << "danger";
+		cout << "\n";
 	}
-
 	return 0;
 }
